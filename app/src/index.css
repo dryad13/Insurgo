@@ -25,6 +25,18 @@ body {
   overflow-x: hidden;
 }
 
+::selection {
+  background: rgba(251, 12, 12, 0.28);
+  color: #fff;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid rgba(251, 12, 12, 0.65);
+  outline-offset: 2px;
+}
+
 /* Glow utilities */
 .glow-red {
   box-shadow: 0 0 20px rgba(251, 12, 12, 0.3), 0 0 60px rgba(251, 12, 12, 0.1);
