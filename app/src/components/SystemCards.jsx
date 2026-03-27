@@ -35,9 +35,11 @@ export default function SystemCards() {
   return (
     <SectionWrapper id="systems">
       <motion.h2
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: '-20px' }}
+        transition={{ duration: 0.5 }}
+        style={{ willChange: 'transform, opacity' }}
         className="text-3xl md:text-4xl font-bold text-center mb-14 gradient-text-red"
       >
         {CONTENT.systems.title}

@@ -3,10 +3,11 @@ import { motion } from 'framer-motion';
 export default function GlassPanel({ children, className = '', hover = false }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.7, ease: 'easeOut' }}
+      viewport={{ once: true, margin: '-20px' }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+      style={{ willChange: 'transform, opacity' }}
       className={`
         glass relative overflow-hidden rounded-2xl p-6 md:p-10 lg:p-12
         ${hover ? 'glass-hover transition-all duration-300 cursor-pointer hover:-translate-y-1' : ''}

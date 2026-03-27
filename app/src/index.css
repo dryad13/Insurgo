@@ -57,9 +57,16 @@ input:focus-visible {
 /* Glass surface */
 .glass {
   background: rgba(17, 17, 24, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(251, 12, 12, 0.1);
+}
+
+@media (min-width: 768px) {
+  .glass {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
 }
 .glass-hover:hover {
   border-color: rgba(251, 12, 12, 0.3);

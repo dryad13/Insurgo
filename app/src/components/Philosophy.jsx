@@ -13,9 +13,11 @@ export default function Philosophy() {
           {/* Text side */}
           <div>
             <motion.h2
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-20px' }}
+              transition={{ duration: 0.5 }}
+              style={{ willChange: 'transform, opacity' }}
               className="text-3xl md:text-4xl font-bold mb-8 gradient-text-red"
             >
               {philosophy.title}
@@ -47,10 +49,11 @@ export default function Philosophy() {
           <div className="relative">
             {/* Manual (dim, scattered) */}
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-20px' }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              style={{ willChange: 'transform, opacity' }}
               className="space-y-3 mb-8"
             >
               <p className="text-xs uppercase tracking-widest text-white/30 mb-4 font-secondary">
@@ -76,10 +79,11 @@ export default function Philosophy() {
 
             {/* Autonomous (connected, glowing) */}
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.6 }}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-20px' }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              style={{ willChange: 'transform, opacity' }}
               className="space-y-2"
             >
               <p className="text-xs uppercase tracking-widest text-cyan-glow/50 mb-4 font-secondary">
