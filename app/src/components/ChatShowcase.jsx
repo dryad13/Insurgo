@@ -103,7 +103,11 @@ export default function ChatShowcase() {
 
         {/* Starter prompts */}
         {messages.length === 0 && (
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="mb-4">
+            <p className="mb-2 text-[11px] uppercase tracking-[0.16em] text-white/30 font-secondary">
+              Starter prompts
+            </p>
+            <div className="flex flex-wrap gap-2">
             {chat.prompts.map((prompt) => (
               <button
                 key={prompt}
@@ -113,6 +117,7 @@ export default function ChatShowcase() {
                 {prompt}
               </button>
             ))}
+            </div>
           </div>
         )}
 

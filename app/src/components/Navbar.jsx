@@ -64,7 +64,7 @@ export default function Navbar() {
         </div>
 
         {/* Right: CTA */}
-        <div className="flex-1 flex items-center justify-end">
+        <div className="flex-1 hidden md:flex items-center justify-end">
           <NeonButton variant="primary" href="#ai">
             {CONTENT.nav.cta}
           </NeonButton>
@@ -92,6 +92,14 @@ export default function Navbar() {
                   {link}
                 </a>
               ))}
+
+              <a
+                href="#ai"
+                onClick={() => setMenuOpen(false)}
+                className="mt-1 inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-medium text-white border border-red-glow/30 bg-red-glow/[0.08] hover:bg-red-glow/[0.15] transition-all duration-200"
+              >
+                {CONTENT.nav.cta}
+              </a>
             </div>
           </motion.div>
         )}

@@ -8,12 +8,15 @@ export default function GlassPanel({ children, className = '', hover = false }) 
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.7, ease: 'easeOut' }}
       className={`
-        glass rounded-2xl p-8 md:p-12
+        glass relative overflow-hidden rounded-2xl p-6 md:p-10 lg:p-12
         ${hover ? 'glass-hover transition-all duration-300 cursor-pointer hover:-translate-y-1' : ''}
         ${className}
       `}
     >
-      {children}
+      <div className="pointer-events-none absolute inset-0 opacity-70">
+        <div className="absolute -top-24 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-red-glow/[0.08] blur-3xl" />
+      </div>
+      <div className="relative">{children}</div>
     </motion.div>
   );
 }
