@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Insurgo — Slide Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700&family=Michroma&display=swap" rel="stylesheet" />
+  <style>
+    /* Matches app/src/index.css @theme — brand palette only */
+    :root {
+      --color-dark-bg: #0a0a0f;
+      --color-dark-surface: rgba(17, 17, 24, 0.85);
+      --color-dark-surface-solid: #111118;
+      --color-red-glow: #fb0c0c;
+      --color-red-deep: #950707;
+      --color-cyan-glow: #00f0ff;
+      --color-grid-line: #1a1a2e;
+      --color-text-secondary: #9ca3af;
+      --color-text-primary: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+    html {
+      height: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      min-height: -webkit-fill-available;
+      -webkit-text-size-adjust: 100%;
+    }
+    body {
+      margin: 0;
+      height: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      min-height: -webkit-fill-available;
+      background: var(--color-dark-bg);
+      color: #ffffff;
+      font-family: "League Spartan", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+    }
+
+    .deck-shell {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      min-height: -webkit-fill-available;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      background: var(--color-dark-bg);
+    }
+
+    .deck-aurora {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 130% 90% at 50% -25%, rgba(251, 12, 12, 0.22), transparent 58%),
+        radial-gradient(ellipse 80% 55% at 100% 5%, rgba(0, 240, 255, 0.1), transparent 48%),
+        radial-gradient(ellipse 70% 50% at 0% 95%, rgba(251, 12, 12, 0.08), transparent 52%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(0, 240, 255, 0.06), transparent 45%);
+    }
+
+    .deck-scan {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: -20%;
+      height: 35%;
+      pointer-events: none;
+      z-index: 1;
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(0, 240, 255, 0.03) 45%,
+        rgba(251, 12, 12, 0.04) 55%,
+        transparent 100%
+      );
+      animation: deck-scan 10s ease-in-out infinite;
+      opacity: 0.85;
+    }
+    @keyframes deck-scan {
+      0%, 100% { transform: translateY(0); opacity: 0.4; }
+      50% { transform: translateY(120vh); opacity: 0.75; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .deck-scan { animation: none; opacity: 0.25; transform: translateY(40vh); }
+    }
+
+    .deck-corners {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .corner-bracket {
+      position: absolute;
+      width: min(56px, 12vw);
+      height: min(56px, 12vw);
+      border-color: rgba(251, 12, 12, 0.45);
+      opacity: 0.85;
+    }
+    .corner-bracket::after {
+      content: "";
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: var(--color-cyan-glow);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+      border-radius: 1px;
+    }
+    .cb-tl { top: clamp(0.75rem, 2vw, 1.25rem); left: clamp(0.75rem, 2vw, 1.25rem); border-top: 2px solid; border-left: 2px solid; }
+    .cb-tl::after { bottom: -1px; right: -1px; }
+    .cb-tr { top: clamp(0.75rem, 2vw, 1.25rem); right: clamp(0.75rem, 2vw, 1.25rem); border-top: 2px solid; border-right: 2px solid; }
+    .cb-tr::after { bottom: -1px; left: -1px; }
+    .cb-bl { bottom: clamp(0.75rem, 2vw, 1.25rem); left: clamp(0.75rem, 2vw, 1.25rem); border-bottom: 2px solid; border-left: 2px solid; }
+    .cb-bl::after { top: -1px; right: -1px; }
+    .cb-br { bottom: clamp(0.75rem, 2vw, 1.25rem); right: clamp(0.75rem, 2vw, 1.25rem); border-bottom: 2px solid; border-right: 2px solid; }
+    .cb-br::after { top: -1px; left: -1px; }
+
+    .deck-hex {
+      position: fixed;
+      width: min(420px, 55vw);
+      height: min(420px, 55vw);
+      right: -8%;
+      bottom: -12%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.12;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='none' stroke='%23FB0C0C' stroke-width='0.35' d='M50 5 L90 27.5 V72.5 L50 95 L10 72.5 V27.5 Z'/%3E%3Cpath fill='none' stroke='%2300F0FF' stroke-width='0.25' d='M50 20 L75 34.5 V65.5 L50 80 L25 65.5 V34.5 Z'/%3E%3C/svg%3E") center / contain no-repeat;
+      filter: blur(0.5px);
+    }
+
+    .deck {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      min-height: -webkit-fill-available;
+      touch-action: manipulation;
+      -webkit-user-select: text;
+      user-select: text;
+      background:
+        linear-gradient(rgba(10, 10, 15, 0.88), rgba(10, 10, 15, 0.88)),
+        repeating-linear-gradient(0deg, transparent, transparent 47px, var(--color-grid-line) 47px, var(--color-grid-line) 48px),
+        repeating-linear-gradient(90deg, transparent, transparent 47px, var(--color-grid-line) 47px, var(--color-grid-line) 48px);
+      background-size: auto, 48px 48px, 48px 48px;
+    }
+
+    .slide {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3.5vw, 4rem);
+      padding-bottom: max(3.25rem, env(safe-area-inset-bottom, 0px) + 2.5rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #ffffff;
+      z-index: 1;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      box-sizing: border-box;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+    }
+    .slide.is-active {
+      z-index: 10;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .slide > *:not(.slide-brand) {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .slide-brand {
+      position: absolute;
+      top: clamp(1rem, 3vw, 1.75rem);
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.95;
+      z-index: 5;
+      max-width: calc(100% - 2rem);
+      pointer-events: none;
+    }
+    .slide-brand img {
+      width: auto;
+      max-width: min(280px, 85vw);
+      height: clamp(48px, 11vw, 92px);
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 0 20px rgba(251, 12, 12, 0.25));
+    }
+    .slide-brand span {
+      font-family: Michroma, sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+    }
+
+    h1 {
+      font-size: clamp(2.35rem, 5.8vw, 3.85rem);
+      font-weight: 700;
+      line-height: 1.08;
+      margin: 0 0 1.15rem;
+      letter-spacing: -0.02em;
+    }
+    .slide h1::after {
+      content: "";
+      display: block;
+      width: min(5.5rem, 28vw);
+      height: 4px;
+      margin: 1.1rem auto 0;
+      background: linear-gradient(90deg, var(--color-red-glow), var(--color-cyan-glow));
+      border-radius: 2px;
+      box-shadow: 0 0 22px rgba(251, 12, 12, 0.4);
+    }
+    h2 {
+      font-size: clamp(1.7rem, 3.6vw, 2.65rem);
+      font-weight: 600;
+      margin: 0 0 1.4rem;
+      letter-spacing: -0.02em;
+    }
+    .slide h2::after {
+      content: "";
+      display: block;
+      width: min(4.25rem, 22vw);
+      height: 3px;
+      margin: 0.75rem auto 0;
+      background: linear-gradient(90deg, var(--color-red-glow), var(--color-cyan-glow));
+      border-radius: 2px;
+      box-shadow: 0 0 18px rgba(251, 12, 12, 0.35);
+    }
+    .subtitle {
+      font-size: clamp(1.15rem, 2.25vw, 1.5rem);
+      color: var(--color-text-secondary);
+      font-weight: 400;
+      line-height: 1.55;
+      max-width: 46rem;
+      margin: 0 auto;
+    }
+    .title-tagline {
+      margin-top: 0.85rem !important;
+      font-size: clamp(1rem, 2vw, 1.25rem) !important;
+    }
+    .micro {
+      margin-top: 1.85rem;
+      font-size: 1.02rem;
+      color: var(--color-text-secondary);
+    }
+
+    .gradient-red {
+      background: linear-gradient(180deg, var(--color-red-glow) 0%, var(--color-red-deep) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .highlight-line {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 600;
+      color: var(--color-cyan-glow);
+      text-shadow: 0 0 28px rgba(0, 240, 255, 0.28);
+      margin: 1rem 0 1.5rem;
+    }
+
+    p.body {
+      font-size: 1.18rem;
+      line-height: 1.68;
+      color: var(--color-text-primary);
+      margin: 0 auto 1.1rem;
+      max-width: 50rem;
+    }
+    .bullets-lead {
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-top: 1.25rem !important;
+    }
+
+    .layer-block {
+      max-width: 48rem;
+      margin: 0 auto 1.1rem;
+      text-align: left;
+    }
+    .layer-title {
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      font-weight: 700;
+      color: var(--color-cyan-glow);
+      margin: 0 0 0.4rem;
+      line-height: 1.35;
+    }
+    .layer-body {
+      margin-bottom: 0 !important;
+    }
+
+    .pipeline-section-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin: 1.15rem auto 0.5rem;
+      color: var(--color-text-primary);
+      max-width: 44rem;
+    }
+
+    ul.bullets {
+      margin: 0 auto;
+      padding: 0;
+      list-style: none;
+      max-width: 44rem;
+      width: 100%;
+    }
+    ul.bullets li {
+      margin-bottom: 0.75rem;
+      font-size: 1.15rem;
+      line-height: 1.55;
+      color: var(--color-text-primary);
+    }
+    ul.bullets li::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      background: var(--color-red-glow);
+      box-shadow: 0 0 14px rgba(251, 12, 12, 0.55);
+      margin-right: 0.55rem;
+      vertical-align: 0.1em;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 0.5rem;
+      width: 100%;
+      max-width: 1100px;
+    }
+    .card {
+      background: var(--color-dark-surface);
+      border: 1px solid rgba(251, 12, 12, 0.12);
+      border-radius: 12px;
+      padding: 1.15rem 1.25rem;
+      backdrop-filter: blur(8px);
+      text-align: center;
+    }
+    .card .label {
+      font-family: Michroma, sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-cyan-glow);
+      margin-bottom: 0.35rem;
+    }
+    .card h3 {
+      font-size: 1.05rem;
+      margin: 0 0 0.5rem;
+      font-weight: 600;
+    }
+    .card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+    }
+    .card ul {
+      margin: 0.6rem 0 0;
+      padding-left: 0;
+      list-style: none;
+      font-size: 0.85rem;
+      color: var(--color-text-primary);
+      text-align: center;
+    }
+    .card ul li {
+      margin-bottom: 0.35rem;
+    }
+
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem 1rem;
+      margin-top: 0.75rem;
+      justify-content: center;
+      max-width: 56rem;
+    }
+    .step {
+      font-size: 0.95rem;
+      padding: 0.45rem 0.85rem;
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      border-radius: 999px;
+      color: var(--color-text-primary);
+    }
+
+    .quote {
+      font-size: clamp(1.35rem, 2.65vw, 1.9rem);
+      font-weight: 500;
+      line-height: 1.45;
+      border-left: none;
+      border-top: 3px solid var(--color-red-glow);
+      padding-left: 0;
+      padding-top: 1.25rem;
+      margin: 0 auto;
+      max-width: 46rem;
+      color: var(--color-text-primary);
+    }
+
+    .table-wrap.table-wide {
+      max-width: min(56rem, 100%);
+    }
+    table.price-table.cols-3 {
+      font-size: clamp(0.78rem, 1.5vw, 0.92rem);
+    }
+    table.price-table.cols-3 th:nth-child(1),
+    table.price-table.cols-3 td:nth-child(1),
+    table.price-table.cols-3 th:nth-child(2),
+    table.price-table.cols-3 td:nth-child(2) {
+      text-align: left;
+    }
+    table.price-table.cols-3 th:nth-child(3),
+    table.price-table.cols-3 td:nth-child(3) {
+      text-align: right;
+    }
+
+    .table-wrap {
+      width: 100%;
+      max-width: 48rem;
+      margin: 0.35rem auto 0;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(17, 17, 24, 0.45);
+      border: 1px solid rgba(251, 12, 12, 0.14);
+      border-radius: 16px;
+      padding: 0.85rem 1.1rem 1rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 40px rgba(10, 10, 15, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+    table.price-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: clamp(0.92rem, 1.95vw, 1.08rem);
+    }
+    table.price-table th,
+    table.price-table td {
+      padding: 0.5rem 0.65rem;
+      border-bottom: 1px solid rgba(251, 12, 12, 0.12);
+      text-align: center;
+      vertical-align: top;
+    }
+    table.price-table th {
+      font-family: Michroma, sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--color-cyan-glow);
+      border-bottom-color: rgba(0, 240, 255, 0.28);
+    }
+    table.price-table tbody tr.total-row td {
+      font-weight: 700;
+      color: var(--color-text-primary);
+      border-top: 1px solid rgba(251, 12, 12, 0.35);
+      border-bottom: none;
+      padding-top: 0.65rem;
+    }
+    table.price-table td:last-child {
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .flow-lines {
+      max-width: 50rem;
+      margin: 0 auto;
+    }
+    .flow-line {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 0.65rem;
+      margin: 0.5rem auto;
+      font-size: clamp(1.05rem, 2.1vw, 1.2rem);
+      line-height: 1.48;
+      color: var(--color-text-primary);
+      text-align: left;
+      max-width: 38rem;
+    }
+    .flow-line::before {
+      content: "";
+      flex-shrink: 0;
+      width: 10px;
+      height: 10px;
+      margin-top: 0.38em;
+      background: linear-gradient(135deg, var(--color-cyan-glow), var(--color-red-glow));
+      box-shadow: 0 0 14px rgba(0, 240, 255, 0.45);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+
+    .package-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.15rem;
+      width: 100%;
+      max-width: 56rem;
+      margin: 0.65rem auto 0;
+    }
+    .package-card {
+      background: var(--color-dark-surface);
+      border: 1px solid rgba(251, 12, 12, 0.18);
+      border-radius: 14px;
+      padding: 1.35rem 1.4rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 28px rgba(251, 12, 12, 0.06);
+    }
+    .package-card h3 {
+      font-size: 1.02rem;
+      font-weight: 600;
+      margin: 0 0 0.75rem;
+      line-height: 1.38;
+      color: var(--color-text-primary);
+    }
+    .package-setup {
+      margin: 0;
+      font-size: 1.28rem;
+      font-weight: 700;
+      color: var(--color-cyan-glow);
+      text-shadow: 0 0 18px rgba(0, 240, 255, 0.25);
+    }
+    .package-footer-title {
+      margin: 1.5rem auto 0.4rem;
+      font-size: 0.92rem;
+      font-family: Michroma, sans-serif;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+    }
+    .package-footer-text {
+      margin: 0;
+      font-size: 1.12rem;
+      line-height: 1.55;
+      color: var(--color-text-primary);
+      max-width: 38rem;
+    }
+    .package-best {
+      margin: 0.65rem 0 0;
+      font-size: 0.95rem;
+      line-height: 1.45;
+      color: var(--color-text-secondary);
+    }
+
+    .cta-contact {
+      font-size: 1.15rem;
+      margin: 0.5rem auto 0;
+      color: var(--color-text-primary);
+    }
+    .cta-company {
+      margin: 1.35rem auto 0.25rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+    .cta-tagline {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+    }
+
+    .footer-hint {
+      position: fixed;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.82rem;
+      color: var(--color-text-secondary);
+      opacity: 0.65;
+      z-index: 15;
+      pointer-events: none;
+    }
+
+    @media (max-width: 900px) {
+      .slide {
+        /* Logo is position:absolute — reserve header band; center short slides in the space below */
+        justify-content: center;
+        justify-content: safe center;
+        padding-top: calc(env(safe-area-inset-top, 0px) + 5.75rem);
+        padding-bottom: max(3.75rem, calc(env(safe-area-inset-bottom, 0px) + 3rem));
+        gap: 0.75rem;
+        transition: none;
+      }
+      .slide-brand {
+        top: calc(env(safe-area-inset-top, 0px) + 0.5rem);
+      }
+      .slide-brand img {
+        height: clamp(40px, 10vw, 72px);
+      }
+      h1 {
+        font-size: clamp(1.5rem, 6.5vw, 2.25rem);
+      }
+      h2 {
+        font-size: clamp(1.2rem, 4.8vw, 1.75rem);
+      }
+      p.body,
+      ul.bullets li,
+      .subtitle,
+      .micro {
+        font-size: max(15px, 0.95rem);
+        line-height: 1.55;
+      }
+      .layer-block {
+        text-align: center;
+      }
+      .layer-title {
+        font-size: 1rem;
+      }
+      .flow-line {
+        font-size: max(14px, 0.9rem);
+        max-width: 100%;
+      }
+      /* Tables: avoid nowrap + flex min-width:auto clipping long values on narrow screens */
+      .slide > *:not(.slide-brand) {
+        min-width: 0;
+      }
+      .table-wrap {
+        padding: 0.55rem 0.45rem 0.7rem;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow-x: auto;
+      }
+      table.price-table {
+        table-layout: fixed;
+        width: 100%;
+        font-size: clamp(0.68rem, 3.1vw, 0.98rem);
+      }
+      table.price-table.cols-3 {
+        font-size: clamp(0.65rem, 2.95vw, 0.92rem);
+      }
+      table.price-table th,
+      table.price-table td {
+        padding: 0.42rem 0.35rem;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+        hyphens: auto;
+      }
+      table.price-table td:last-child {
+        white-space: normal;
+      }
+      table.price-table.cols-3 th:nth-child(1),
+      table.price-table.cols-3 td:nth-child(1) {
+        width: 26%;
+      }
+      table.price-table.cols-3 th:nth-child(2),
+      table.price-table.cols-3 td:nth-child(2) {
+        width: 50%;
+      }
+      table.price-table.cols-3 th:nth-child(3),
+      table.price-table.cols-3 td:nth-child(3) {
+        width: 24%;
+      }
+      table.price-table.cols-2 th:nth-child(1),
+      table.price-table.cols-2 td:nth-child(1) {
+        width: 55%;
+      }
+      table.price-table.cols-2 th:nth-child(2),
+      table.price-table.cols-2 td:nth-child(2) {
+        width: 45%;
+      }
+    }
+
+    .progress {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-red-glow), var(--color-cyan-glow));
+      transform-origin: left;
+      z-index: 25;
+      transition: transform 0.25s ease;
+      box-shadow: 0 0 12px rgba(251, 12, 12, 0.35);
+    }
+
+    .counter {
+      position: fixed;
+      bottom: 1rem;
+      right: clamp(1rem, 3vw, 2rem);
+      font-family: Michroma, sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      color: var(--color-text-secondary);
+      z-index: 15;
+    }
+
+    @media print {
+      /*
+        Print rules must NOT override .slide-brand (position:absolute) or other layout.
+        Backgrounds live only on .slide — no ::before/::after here (those sat on top of text).
+      */
+      html,
+      body,
+      .deck-shell,
+      .deck,
+      .slide,
+      .table-wrap,
+      .package-card,
+      .card {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      html, body {
+        overflow: visible !important;
+        height: auto !important;
+        background: var(--color-dark-bg) !important;
+      }
+
+      .deck-shell {
+        min-height: auto;
+        background: var(--color-dark-bg);
+        overflow: visible !important;
+      }
+
+      .deck-aurora,
+      .deck-scan,
+      .deck-hex,
+      .deck-corners,
+      .corner-bracket {
+        display: none !important;
+      }
+
+      .deck {
+        position: relative !important;
+        height: auto !important;
+        min-height: 0 !important;
+        background: transparent !important;
+      }
+
+      .slide {
+        position: relative !important;
+        inset: auto !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        z-index: auto !important;
+        pointer-events: auto;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        max-width: none !important;
+        width: 100% !important;
+        margin: 0 !important;
+        page-break-after: always;
+        page-break-inside: avoid;
+        break-after: page;
+        min-height: 100vh;
+        padding: 3rem 1.5rem 2rem !important;
+        box-sizing: border-box;
+        overflow: visible !important;
+        box-shadow: inset 0 0 0 1px rgba(251, 12, 12, 0.15);
+        /* Single layer stack: front (first) … back (last) */
+        background-color: var(--color-dark-bg);
+        background-image:
+          linear-gradient(rgba(10, 10, 15, 0.88), rgba(10, 10, 15, 0.88)),
+          repeating-linear-gradient(0deg, transparent, transparent 47px, var(--color-grid-line) 47px, var(--color-grid-line) 48px),
+          repeating-linear-gradient(90deg, transparent, transparent 47px, var(--color-grid-line) 47px, var(--color-grid-line) 48px),
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='none' stroke='%23FB0C0C' stroke-width='0.35' d='M50 5 L90 27.5 V72.5 L50 95 L10 72.5 V27.5 Z'/%3E%3Cpath fill='none' stroke='%2300F0FF' stroke-width='0.25' d='M50 20 L75 34.5 V65.5 L50 80 L25 65.5 V34.5 Z'/%3E%3C/svg%3E"),
+          radial-gradient(ellipse 130% 90% at 50% -25%, rgba(251, 12, 12, 0.22), transparent 58%),
+          radial-gradient(ellipse 80% 55% at 100% 5%, rgba(0, 240, 255, 0.1), transparent 48%),
+          radial-gradient(ellipse 70% 50% at 0% 95%, rgba(251, 12, 12, 0.08), transparent 52%),
+          radial-gradient(ellipse 50% 40% at 80% 80%, rgba(0, 240, 255, 0.06), transparent 45%);
+        background-position:
+          0 0,
+          0 0,
+          0 0,
+          right -4% bottom -6%,
+          0 0,
+          0 0,
+          0 0,
+          0 0;
+        background-size:
+          auto,
+          48px 48px,
+          48px 48px,
+          min(320px, 42vw),
+          auto,
+          auto,
+          auto,
+          auto;
+        background-repeat:
+          no-repeat,
+          repeat,
+          repeat,
+          no-repeat,
+          no-repeat,
+          no-repeat,
+          no-repeat,
+          no-repeat;
+      }
+
+      .slide-brand {
+        position: absolute !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        top: 1.25rem !important;
+      }
+
+      .footer-hint,
+      .counter,
+      .progress {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    EDIT YOUR DECK: JSON inside script#deck-data — layouts:
+    title (subtitle, tagline, micro, micro2), heading (paragraphs, highlight, bulletsTitle, items, closing, closingParagraphs),
+    layers (intro, layers[]), pipeline (intro, pipelineTitle, lines, outroTitle, outro),
+    table (intro?, columns 2–3, rows label/detail/value, total with detail for 3-col), bullets (items, closing?),
+    packages (options + bestFor, footerNotes), flow, cta (paragraphs, contacts, company, tagline), …
+  -->
+  <script id="deck-data" type="application/json">
+{
+  "brand": "Insurgo",
+  "logoSrc": "./Final%20Logo.svg",
+  "slides": [
+    {
+      "layout": "title",
+      "title": "Full-Stack Real Estate Marketing Automation",
+      "subtitle": "From Zero Digital Presence to a Complete Lead Machine",
+      "tagline": "Website · Ads · WhatsApp CRM · AI-Generated Creatives · Automated Reporting",
+      "micro": "Proposed by Insurgo Systems Engineering",
+      "micro2": "Built for serious real estate groups who want results, not excuses"
+    },
+    {
+      "layout": "heading",
+      "title": "Where You Are Right Now",
+      "paragraphs": [
+        "You have a Facebook page. A website that doesn't work. No way to capture leads, no way to follow up, and no visibility into what's happening with potential buyers.",
+        "Every time someone sees your listing and moves on — that's a lost deal. Not because they weren't interested. Because there was no system to catch them."
+      ],
+      "bulletsTitle": "Right now you are relying on:",
+      "items": [
+        "Manual DMs and WhatsApp follow-ups",
+        "Word of mouth and walk-ins",
+        "No data on what's working",
+        "No automation — every lead depends on a human being available at that moment"
+      ],
+      "closing": "This is not scalable. And in a competitive real estate market, it's costing you deals every single week."
+    },
+    {
+      "layout": "layers",
+      "title": "What a Real System Looks Like",
+      "intro": "A proper real estate marketing system has five layers working together:",
+      "layers": [
+        {
+          "title": "Layer 1 — Presence",
+          "body": "A live, fast, mobile-optimised website with dedicated landing pages per project or listing type. Built to convert visitors into leads, not just look good."
+        },
+        {
+          "title": "Layer 2 — Traffic",
+          "body": "Paid Facebook and Instagram campaigns targeted by location, income bracket, and buying intent. Creatives generated automatically per listing — no designer bottleneck."
+        },
+        {
+          "title": "Layer 3 — Capture",
+          "body": "Every lead — whether from your website form or a Facebook Lead Ad — is captured instantly, logged, and routed. Nothing falls through."
+        },
+        {
+          "title": "Layer 4 — Conversion",
+          "body": "The moment a lead comes in, WhatsApp fires automatically. They get a personalised response in seconds — not hours. A drip sequence keeps them warm until your agent closes."
+        },
+        {
+          "title": "Layer 5 — Visibility",
+          "body": "Every week, a report lands in your inbox. Leads generated, cost per lead, which campaigns performed, which listings got traction. All automated. No manual pulling of data."
+        }
+      ]
+    },
+    {
+      "layout": "pipeline",
+      "title": "The Creatives Engine",
+      "intro": [
+        "This is where it gets serious.",
+        "Most agencies manually design creatives, wait for approvals, and post once a week. We build you an AI-powered pipeline that runs on autopilot."
+      ],
+      "pipelineTitle": "Here's exactly what happens when a new listing comes in:",
+      "lines": [
+        "Your team fills a simple form — property type, location, price, key features",
+        "Claude AI generates 3–5 ad copy variants — headlines, body copy, CTAs — in seconds",
+        "Flux/Ideogram generates a high-quality property visual based on the listing details",
+        "Our Puppeteer compositor automatically overlays your branding, copy, and image into a finished ad",
+        "The creative is uploaded directly to Meta via the Graph API and launched as a campaign",
+        "Leads flow in → WhatsApp responds → CRM logs the deal"
+      ],
+      "outroTitle": "What this means for you:",
+      "outro": [
+        "New listing live on Meta as a running ad campaign — within minutes of entering the details. No agency waiting time. No design back-and-forth. No delays."
+      ]
+    },
+    {
+      "layout": "table",
+      "title": "One-Time Setup Investment",
+      "columns": ["Component", "What's Included", "Cost"],
+      "rows": [
+        {
+          "label": "Website",
+          "detail": "Responsive React build, listing pages, lead capture forms, SEO basics, Meta Pixel integration",
+          "value": "PKR 95,000"
+        },
+        {
+          "label": "CRM Setup",
+          "detail": "HubSpot or Airtable pipeline, deal stages, automated agent assignment, lead source tagging",
+          "value": "PKR 75,000"
+        },
+        {
+          "label": "WhatsApp Automation",
+          "detail": "360dialog BSP setup, instant reply flow, 5-step drip sequence, lead qualification logic",
+          "value": "PKR 50,000"
+        },
+        {
+          "label": "AI Creatives Pipeline",
+          "detail": "Puppeteer compositor, branded template system, Claude copy generation, prompt engineering per listing type",
+          "value": "PKR 1,20,000"
+        },
+        {
+          "label": "Image Generation",
+          "detail": "Flux/Ideogram API integration, listing-aware prompts, quality control logic",
+          "value": "PKR 50,000"
+        },
+        {
+          "label": "Meta Ads Setup",
+          "detail": "Ad account structure, campaign architecture, audience research, pixel events, retargeting setup",
+          "value": "PKR 50,000"
+        },
+        {
+          "label": "n8n Automation",
+          "detail": "All workflow builds, webhook routing, form-to-CRM flows, error handling, retry logic",
+          "value": "PKR 60,000"
+        },
+        {
+          "label": "Meta Graph API",
+          "detail": "Auto-publish creatives, dark post management, campaign launch rules, budget controls",
+          "value": "PKR 38,000"
+        },
+        {
+          "label": "Reporting Automation",
+          "detail": "AI-summarised weekly report, lead metrics, ad performance, delivered to your inbox automatically",
+          "value": "PKR 25,000"
+        }
+      ],
+      "total": {
+        "label": "Total Setup",
+        "detail": "Complete end-to-end system",
+        "value": "PKR 5,63,000"
+      }
+    },
+    {
+      "layout": "table",
+      "title": "Monthly Recurring Costs",
+      "intro": "Once built, the system runs on a lean infrastructure stack. Here's exactly what keeps it alive:",
+      "columns": ["Item", "What It Covers", "Cost/Mo"],
+      "rows": [
+        {
+          "label": "Hosting & Infrastructure",
+          "detail": "Render cloud instance, database, background workers — all processes live and persistent",
+          "value": "PKR 8,000"
+        },
+        {
+          "label": "WhatsApp BSP (360dialog)",
+          "detail": "API access, message routing, session management",
+          "value": "PKR 5,500"
+        },
+        {
+          "label": "Meta Conversation Fees",
+          "detail": "Per-conversation charges from Meta on incoming WhatsApp interactions",
+          "value": "PKR 1,500"
+        },
+        {
+          "label": "Claude API",
+          "detail": "Ad copy generation per listing, weekly report summarisation",
+          "value": "PKR 5,500"
+        },
+        {
+          "label": "Image Generation API",
+          "detail": "Flux/Ideogram calls per listing creative",
+          "value": "PKR 5,500"
+        },
+        {
+          "label": "Infrastructure Subtotal",
+          "detail": "—",
+          "value": "PKR 26,000"
+        },
+        {
+          "label": "Ad Management Retainer",
+          "detail": "Campaign monitoring, A/B testing, audience optimisation, creative refresh",
+          "value": "PKR 45,000"
+        }
+      ],
+      "total": {
+        "label": "Total Monthly",
+        "detail": "—",
+        "value": "PKR 71,000"
+      },
+      "footnote": "Ad spend budget not included — recommended PKR 50,000–80,000/mo minimum for meaningful real estate lead volume in Karachi"
+    },
+    {
+      "layout": "packages",
+      "title": "Package Options",
+      "options": [
+        {
+          "title": "Option A — Self-Managed",
+          "setup": "One-Time Setup: PKR 4,50,000",
+          "bestFor": "Best for: Teams with a technical point of contact. You handle your own platform subscriptions (hosting, WhatsApp BSP, APIs)."
+        },
+        {
+          "title": "Option B — Fully Managed by Insurgo",
+          "setup": "One-Time Setup: PKR 5,63,000",
+          "bestFor": "Best for: Teams who want zero technical overhead. We handle every account, subscription, renewal, and troubleshooting."
+        }
+      ],
+      "footerTitle": "Monthly Retainer (Both Options)",
+      "footerText": "PKR 65,000/mo — Covers: Infrastructure, ad management, AI creatives, WhatsApp flows, weekly reporting",
+      "footerNotes": [
+        "First month's infrastructure included in setup cost. No hidden fees."
+      ]
+    },
+    {
+      "layout": "table",
+      "title": "Delivery Timeline",
+      "columns": ["Phase", "What Gets Delivered", "Timeline"],
+      "rows": [
+        {
+          "label": "Phase 1",
+          "detail": "Website live, lead forms active, Meta Pixel firing",
+          "value": "Days 1–10"
+        },
+        {
+          "label": "Phase 2",
+          "detail": "CRM configured, WhatsApp flows live, first test lead end-to-end",
+          "value": "Days 8–18"
+        },
+        {
+          "label": "Phase 3",
+          "detail": "Creatives pipeline built, image gen integrated, Puppeteer compositor live",
+          "value": "Days 15–28"
+        },
+        {
+          "label": "Phase 4",
+          "detail": "Meta Graph API connected, auto-publish tested with real listings",
+          "value": "Days 25–32"
+        },
+        {
+          "label": "Phase 5",
+          "detail": "QA across all flows, reporting automation live, team walkthrough & handoff",
+          "value": "Days 30–35"
+        },
+        {
+          "label": "Go Live",
+          "detail": "Full system operational, first campaign running",
+          "value": "Week 5"
+        }
+      ],
+      "footnote": "Structured weekly check-ins throughout. You see progress at every stage — not just at the end."
+    },
+    {
+      "layout": "heading",
+      "title": "Why This Works for Real Estate Specifically",
+      "paragraphs": [
+        "Real estate buyers do not wait. If someone sees a DHA Phase 8 listing at 11pm and you respond at 10am the next morning — they've already called three other agents."
+      ],
+      "highlight": "Speed is the entire game. This system wins on speed.",
+      "items": [
+        "WhatsApp reply fires in under 30 seconds of a lead coming in — any time of day",
+        "AI creatives mean a new listing is live on Meta within minutes, not days",
+        "CRM means no lead ever gets forgotten or double-handled between agents",
+        "Automated follow-up means leads that don't convert on day one stay warm for weeks"
+      ],
+      "closingParagraphs": [
+        "Every component is built specifically around the Pakistani real estate buying behaviour — WhatsApp-first communication, Facebook as the dominant discovery platform, and high-intent buyers who respond to speed and professionalism."
+      ]
+    },
+    {
+      "layout": "heading",
+      "title": "Why Insurgo Systems",
+      "paragraphs": [
+        "We are not a creative agency that picked up automation tools. We are a systems engineering studio that builds infrastructure designed to scale."
+      ],
+      "items": [
+        "One team, full delivery — no handoffs between a web agency, a media buyer, and a WhatsApp vendor",
+        "You own everything — all accounts, all data, all code. No lock-in, ever",
+        "The system replicates — once built, every new listing costs you nothing extra to run through the pipeline",
+        "Built on proven stack — n8n, Meta Graph API, Claude, Render — production-grade tools used by companies 100x your size",
+        "Local market understanding — Karachi-based, available on your timezone, no communication lag"
+      ],
+      "closing": "This is not a template. This is a custom system engineered for your business."
+    },
+    {
+      "layout": "cta",
+      "headline": "Next Step",
+      "paragraphs": [
+        "Let's scope your first listing campaign and get Phase 1 underway.",
+        "No lengthy proposals. No waiting weeks for a quote.",
+        "One conversation — and we map the exact system your business needs."
+      ],
+      "contacts": [
+        "📩 allyabdullah@insurgo.systems",
+        "📞 0333-372-8901"
+      ],
+      "company": "Insurgo Systems ",
+      "tagline": "We build the systems. You close the deals."
+    }
+  ]
+}
+  </script>
+
+  <div class="deck-shell">
+    <div class="deck-aurora" aria-hidden="true"></div>
+    <div class="deck-scan" aria-hidden="true"></div>
+    <div class="deck-hex" aria-hidden="true"></div>
+    <div class="deck-corners" aria-hidden="true">
+      <span class="corner-bracket cb-tl"></span>
+      <span class="corner-bracket cb-tr"></span>
+      <span class="corner-bracket cb-bl"></span>
+      <span class="corner-bracket cb-br"></span>
+    </div>
+    <div class="deck" id="deck" aria-live="polite">
+      <!-- slides injected -->
+    </div>
+  </div>
+  <div class="progress" id="progress" style="transform: scaleX(0)"></div>
+  <div class="counter" id="counter" aria-hidden="true"></div>
+  <p class="footer-hint">Swipe left / right to change slide</p>
+
+  <script>
+    (function () {
+      var raw = document.getElementById("deck-data").textContent;
+      var data = JSON.parse(raw);
+      var deckEl = document.getElementById("deck");
+      var progressEl = document.getElementById("progress");
+      var counterEl = document.getElementById("counter");
+      var slides = data.slides || [];
+      var brand = data.brand || "Insurgo";
+      var logoSrc = data.logoSrc || "";
+
+      function esc(s) {
+        if (s == null) return "";
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function brandBlock() {
+        if (!logoSrc) {
+          return '<div class="slide-brand"><span>' + esc(brand) + "</span></div>";
+        }
+        return (
+          '<div class="slide-brand"><img src="' +
+          esc(logoSrc) +
+          '" alt="' +
+          esc(brand) +
+          '" /></div>'
+        );
+      }
+
+      function renderSlide(slide, index) {
+        var inner = "";
+        var layout = slide.layout || "bullets";
+
+        if (layout === "title") {
+          inner = "<h1>" + esc(slide.title) + "</h1>";
+          if (slide.subtitle) inner += '<p class="subtitle">' + esc(slide.subtitle) + "</p>";
+          if (slide.tagline) inner += '<p class="subtitle title-tagline">' + esc(slide.tagline) + "</p>";
+          if (slide.micro) inner += '<p class="micro">' + esc(slide.micro) + "</p>";
+          if (slide.micro2) inner += '<p class="micro">' + esc(slide.micro2) + "</p>";
+        } else if (layout === "heading") {
+          inner = "<h2>" + esc(slide.title) + "</h2>";
+          (slide.paragraphs || []).forEach(function (p) {
+            inner += '<p class="body">' + esc(p) + "</p>";
+          });
+          if (slide.highlight) {
+            inner += '<p class="highlight-line">' + esc(slide.highlight) + "</p>";
+          }
+          if (slide.bulletsTitle) {
+            inner += '<p class="body bullets-lead">' + esc(slide.bulletsTitle) + "</p>";
+          }
+          if (slide.items && slide.items.length) {
+            inner += '<ul class="bullets">';
+            slide.items.forEach(function (item) {
+              inner += "<li>" + esc(item) + "</li>";
+            });
+            inner += "</ul>";
+          }
+          if (slide.closing) inner += '<p class="body">' + esc(slide.closing) + "</p>";
+          (slide.closingParagraphs || []).forEach(function (p) {
+            inner += '<p class="body">' + esc(p) + "</p>";
+          });
+        } else if (layout === "layers") {
+          inner = "<h2>" + esc(slide.title) + "</h2>";
+          if (slide.intro) inner += '<p class="body">' + esc(slide.intro) + "</p>";
+          (slide.layers || []).forEach(function (L) {
+            inner += '<div class="layer-block">';
+            inner += '<h3 class="layer-title">' + esc(L.title) + "</h3>";
+            inner += '<p class="body layer-body">' + esc(L.body) + "</p>";
+            inner += "</div>";
+          });
+        } else if (layout === "pipeline") {
+          inner = "<h2>" + esc(slide.title) + "</h2>";
+          (slide.intro || []).forEach(function (p) {
+            inner += '<p class="body">' + esc(p) + "</p>";
+          });
+          if (slide.pipelineTitle) {
+            inner += '<p class="pipeline-section-title">' + esc(slide.pipelineTitle) + "</p>";
+          }
+          inner += '<div class="flow-lines">';
+          (slide.lines || []).forEach(function (line) {
+            inner += '<p class="flow-line">' + esc(line) + "</p>";
+          });
+          inner += "</div>";
+          if (slide.outroTitle) {
+            inner += '<p class="pipeline-section-title">' + esc(slide.outroTitle) + "</p>";
+          }
+          (slide.outro || []).forEach(function (p) {
+            inner += '<p class="body">' + esc(p) + "</p>";
+          });
+        } else if (layout === "highlight") {
+          inner = "<h2>" + esc(slide.title) + "</h2>";
+          inner += '<p class="highlight-line">' + esc(slide.line) + "</p>";
+          (slide.paragraphs || []).forEach(function (p) {
+            inner += '<p class="body">' + esc(p) + "</p>";
+          });
+        } else if (layout === "bullets") {
+          inner = "<h2>" + esc(slide.title) + "</h2><ul class=\"bullets\">";
+          (slide.items || []).forEach(function (item) {
+            inner += "<li>" + esc(item) + "</li>";
+          });
+          inner += "</ul>";
+          if (slide.closing) inner += '<p class="body">' + esc(slide.closing) + "</p>";
+        } else if (layout === "cards") {
+          inner = "<h2>" + esc(slide.title) + "</h2><div class=\"cards\">";
+          (slide.cards || []).forEach(function (c) {
+            inner += '<div class="card">';
+            if (c.label) inner += '<div class="label">' + esc(c.label) + "</div>";
+            inner += "<h3>" + esc(c.title) + "</h3>";
+            inner += "<p>" + esc(c.description) + "</p>";
+            if (c.outcomes && c.outcomes.length) {
+              inner += "<ul>";
+              c.outcomes.forEach(function (o) {
+                inner += "<li>" + esc(o) + "</li>";
+              });
+              inner += "</ul>";
+            }
+            inner += "</div>";
+          });
+          inner += "</div>";
+        } else if (layout === "steps") {
+          inner = "<h2>" + esc(slide.title) + "</h2><div class=\"steps\">";
+          (slide.steps || []).forEach(function (s) {
+            inner += '<span class="step">' + esc(s) + "</span>";
+          });
+          inner += "</div>";
+          if (slide.closing) {
+            inner += '<p class="body" style="margin-top:1.25rem">' + esc(slide.closing) + "</p>";
+          }
+        } else if (layout === "quote") {
+          inner = "<h2>" + esc(slide.title) + "</h2>";
+          inner += '<blockquote class="quote">' + esc(slide.quote) + "</blockquote>";
+        } else if (layout === "cta") {
+          inner =
+            '<h1 class="gradient-red" style="margin-bottom:0.75rem">' +
+            esc(slide.headline) +
+            "</h1>";
+          (slide.paragraphs || []).forEach(function (p) {
+            inner += '<p class="body">' + esc(p) + "</p>";
+          });
+          if (slide.subtext) inner += '<p class="subtitle">' + esc(slide.subtext) + "</p>";
+          (slide.contacts || []).forEach(function (line) {
+            inner += '<p class="cta-contact">' + esc(line) + "</p>";
+          });
+          if (slide.company) inner += '<p class="cta-company">' + esc(slide.company) + "</p>";
+          if (slide.tagline) inner += '<p class="cta-tagline">' + esc(slide.tagline) + "</p>";
+          if (slide.footnote) inner += '<p class="micro">' + esc(slide.footnote) + "</p>";
+        } else if (layout === "table") {
+          inner = "<h2>" + esc(slide.title) + "</h2>";
+          if (slide.intro) inner += '<p class="body">' + esc(slide.intro) + "</p>";
+          var cols = slide.columns || ["Item", "Cost"];
+          var nCol = cols.length;
+          var wrapClass = "table-wrap" + (nCol >= 3 ? " table-wide" : "");
+          var tblClass = "price-table cols-" + nCol;
+          inner += '<div class="' + wrapClass + '"><table class="' + tblClass + '">';
+          inner += "<thead><tr>";
+          cols.forEach(function (col) {
+            inner += "<th>" + esc(col) + "</th>";
+          });
+          inner += "</tr></thead><tbody>";
+          (slide.rows || []).forEach(function (row) {
+            inner += "<tr>";
+            if (nCol === 3) {
+              var a = row.label !== undefined ? row.label : row.a !== undefined ? row.a : row[0];
+              var b = row.detail !== undefined ? row.detail : row.b !== undefined ? row.b : row[1];
+              var c = row.value !== undefined ? row.value : row.c !== undefined ? row.c : row[2];
+              inner += "<td>" + esc(a) + "</td><td>" + esc(b) + "</td><td>" + esc(c) + "</td>";
+            } else {
+              var lab = row.label !== undefined ? row.label : row[0];
+              var val = row.value !== undefined ? row.value : row[1];
+              inner += "<td>" + esc(lab) + "</td><td>" + esc(val) + "</td>";
+            }
+            inner += "</tr>";
+          });
+          if (slide.total) {
+            inner += '<tr class="total-row">';
+            if (nCol === 3) {
+              inner +=
+                "<td>" +
+                esc(slide.total.label) +
+                "</td><td>" +
+                esc(slide.total.detail !== undefined ? slide.total.detail : "—") +
+                "</td><td>" +
+                esc(slide.total.value) +
+                "</td>";
+            } else {
+              inner += "<td>" + esc(slide.total.label) + "</td><td>" + esc(slide.total.value) + "</td>";
+            }
+            inner += "</tr>";
+          }
+          inner += "</tbody></table></div>";
+          if (slide.footnote) {
+            inner += '<p class="micro">' + esc(slide.footnote) + "</p>";
+          }
+        } else if (layout === "flow") {
+          inner = "<h2>" + esc(slide.title) + "</h2>";
+          inner += '<div class="flow-lines">';
+          (slide.lines || []).forEach(function (line) {
+            inner += '<p class="flow-line">' + esc(line) + "</p>";
+          });
+          inner += "</div>";
+        } else if (layout === "packages") {
+          inner = "<h2>" + esc(slide.title) + "</h2>";
+          inner += '<div class="package-options">';
+          (slide.options || []).forEach(function (opt) {
+            inner += '<div class="package-card">';
+            inner += "<h3>" + esc(opt.title) + "</h3>";
+            inner += '<p class="package-setup">' + esc(opt.setup) + "</p>";
+            if (opt.bestFor) inner += '<p class="package-best">' + esc(opt.bestFor) + "</p>";
+            inner += "</div>";
+          });
+          inner += "</div>";
+          if (slide.footerTitle) {
+            inner += '<p class="package-footer-title">' + esc(slide.footerTitle) + "</p>";
+          }
+          if (slide.footerText) {
+            inner += '<p class="package-footer-text">' + esc(slide.footerText) + "</p>";
+          }
+          (slide.footerNotes || []).forEach(function (note) {
+            inner += '<p class="micro">' + esc(note) + "</p>";
+          });
+        } else {
+          inner = "<h2>Unknown layout</h2><p class=\"body\">" + esc(layout) + "</p>";
+        }
+
+        var section = document.createElement("section");
+        section.className = "slide";
+        section.setAttribute("role", "group");
+        section.setAttribute("aria-label", "Slide " + (index + 1) + " of " + slides.length);
+        section.innerHTML = brandBlock() + inner;
+        return section;
+      }
+
+      slides.forEach(function (s, i) {
+        deckEl.appendChild(renderSlide(s, i));
+      });
+
+      var current = 0;
+      var total = slides.length;
+
+      function show(i) {
+        if (total === 0) return;
+        current = Math.max(0, Math.min(total - 1, i));
+        var nodes = deckEl.querySelectorAll(".slide");
+        nodes.forEach(function (el, j) {
+          el.classList.toggle("is-active", j === current);
+        });
+        progressEl.style.transform = "scaleX(" + (current + 1) / total + ")";
+        counterEl.textContent = String(current + 1).padStart(2, "0") + " / " + String(total).padStart(2, "0");
+        document.title = brand + " — " + (current + 1) + " / " + total;
+      }
+
+      show(0);
+
+      function next() {
+        show(current + 1);
+      }
+      function prev() {
+        show(current - 1);
+      }
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
+          e.preventDefault();
+          next();
+        } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+          e.preventDefault();
+          prev();
+        } else if (e.key === "Home") {
+          e.preventDefault();
+          show(0);
+        } else if (e.key === "End") {
+          e.preventDefault();
+          show(total - 1);
+        }
+      });
+
+      var touchStartX = 0;
+      var touchStartY = 0;
+      var touchActive = false;
+
+      deckEl.addEventListener(
+        "touchstart",
+        function (e) {
+          if (!e.touches || !e.touches.length) return;
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+          touchActive = true;
+        },
+        { passive: true }
+      );
+
+      deckEl.addEventListener(
+        "touchend",
+        function (e) {
+          if (!touchActive || !e.changedTouches || !e.changedTouches.length) return;
+          touchActive = false;
+          var ex = e.changedTouches[0].clientX;
+          var ey = e.changedTouches[0].clientY;
+          var dx = ex - touchStartX;
+          var dy = ey - touchStartY;
+          var absX = Math.abs(dx);
+          var absY = Math.abs(dy);
+          if (absX < 48) return;
+          if (absX <= absY) return;
+          if (dx < 0) next();
+          else prev();
+        },
+        { passive: true }
+      );
+
+      deckEl.addEventListener(
+        "touchcancel",
+        function () {
+          touchActive = false;
+        },
+        { passive: true }
+      );
+    })();
+  </script>
+</body>
+</html>

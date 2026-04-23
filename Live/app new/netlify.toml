@@ -1,0 +1,26 @@
+# Netlify config for the Insurgo v2 app.
+# Point your Netlify site's "Base directory" at "app new" and this file takes over.
+
+[build]
+  publish = "dist"
+  command = "npm install && npm run build"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# SPA fallback so deep links (e.g. /flow) return the app.
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[dev]
+  command = "npm run dev"
+  port = 8888
+  targetPort = 5174

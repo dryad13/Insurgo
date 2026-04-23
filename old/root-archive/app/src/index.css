@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+@theme {
+  --color-dark-bg: #0A0A0F;
+  --color-dark-surface: rgba(17, 17, 24, 0.7);
+  --color-dark-surface-solid: #111118;
+  --color-red-glow: #FB0C0C;
+  --color-red-deep: #950707;
+  --color-cyan-glow: #00F0FF;
+  --color-grid-line: #1a1a2e;
+  --color-text-secondary: #9CA3AF;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #0A0A0F;
+  color: #ffffff;
+  font-family: 'League Spartan', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(251, 12, 12, 0.28);
+  color: #fff;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid rgba(251, 12, 12, 0.65);
+  outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════
+   GLOW UTILITIES
+   ═══════════════════════════════════════════ */
+.glow-red {
+  box-shadow: 0 0 20px rgba(251, 12, 12, 0.3), 0 0 60px rgba(251, 12, 12, 0.1);
+}
+.glow-red-strong {
+  box-shadow: 0 0 30px rgba(251, 12, 12, 0.5), 0 0 80px rgba(251, 12, 12, 0.2);
+}
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.3), 0 0 60px rgba(0, 240, 255, 0.1);
+}
+.text-glow-red {
+  text-shadow: 0 0 10px rgba(251, 12, 12, 0.5), 0 0 30px rgba(251, 12, 12, 0.2);
+}
+.text-glow-cyan {
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 30px rgba(0, 240, 255, 0.2);
+}
+
+/* ═══════════════════════════════════════════
+   GLASS SURFACE
+   ═══════════════════════════════════════════ */
+.glass {
+  background: rgba(17, 17, 24, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(251, 12, 12, 0.1);
+}
+
+@media (min-width: 768px) {
+  .glass {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+}
+
+.glass-hover:hover {
+  border-color: rgba(251, 12, 12, 0.3);
+  box-shadow: 0 0 30px rgba(251, 12, 12, 0.1), 0 0 60px rgba(251, 12, 12, 0.05);
+}
+
+/* ═══════════════════════════════════════════
+   GRADIENT TEXT
+   ═══════════════════════════════════════════ */
+.gradient-text-red {
+  background: linear-gradient(180deg, #FB0C0C 0%, #950707 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════ */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes rotate-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes dash-flow {
+  to { stroke-dashoffset: -20; }
+}
+
+/* Tron-style light sweep — horizontal red glow that sweeps across */
+@keyframes light-sweep {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.input-light-sweep {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(251, 12, 12, 0.15) 40%,
+    rgba(251, 12, 12, 0.3) 50%,
+    rgba(251, 12, 12, 0.15) 60%,
+    transparent 100%
+  );
+  animation: light-sweep 3s ease-in-out 1.5s 1 forwards;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+.animate-float { animation: float 6s ease-in-out infinite; }
+
+/* ═══════════════════════════════════════════
+   FONT UTILITIES
+   ═══════════════════════════════════════════ */
+.font-display { font-family: 'League Spartan', sans-serif; }
+.font-secondary { font-family: 'Michroma', sans-serif; }
+
+/* ═══════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0A0A0F; }
+::-webkit-scrollbar-thumb { background: rgba(251, 12, 12, 0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(251, 12, 12, 0.5); }
+
+/* ═══════════════════════════════════════════
+   THREE.JS CANVAS OVERRIDES
+   ═══════════════════════════════════════════ */
+/* Ensure the canvas doesn't capture scroll events */
+canvas {
+  touch-action: auto !important;
+}

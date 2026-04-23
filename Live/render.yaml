@@ -1,0 +1,37 @@
+staticSites:
+  - name: insurgo-website
+    rootDir: "Live/app new"
+    buildCommand: npm ci && npm run build
+    publishPath: dist
+    pullRequestPreviewsEnabled: true
+
+services:
+  - type: worker
+    name: insurgo-hermes-gateway
+    runtime: docker
+    plan: starter
+    region: oregon
+    dockerContext: ./Live/whatsapp-bridge
+    dockerfilePath: ./Live/whatsapp-bridge/hermes/Dockerfile
+    autoDeploy: false
+    envVars:
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: WHATSAPP_ENABLED
+        value: "true"
+      - key: GATEWAY_ALLOW_ALL_USERS
+        value: "true"
+      - key: WHATSAPP_ALLOWED_USERS
+        sync: false
+      - key: HERMES_ADMIN_E164
+        value: "+92333728901"
+      - key: HERMES_HOME
+        value: /var/lib/hermes
+      - key: XDG_CONFIG_HOME
+        value: /var/lib/hermes/config
+      - key: PYTHONUNBUFFERED
+        value: "1"
+    disk:
+      name: hermes-data
+      mountPath: /var/lib/hermes
+      sizeGB: 10

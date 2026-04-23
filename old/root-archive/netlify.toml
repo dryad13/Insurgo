@@ -1,0 +1,3 @@
+# Publishes the slide deck at the site root (https://yoursite.netlify.app/)
+[build]
+  publish = "presentation"

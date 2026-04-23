@@ -1,0 +1,22 @@
+{
+  "name": "insurgo-app-v2",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Insurgo website — v2, built on design-v2/DESIGN.md (Linear-inspired, single-accent red, restrained)",
+  "scripts": {
+    "dev": "vite",
+    "dev:netlify": "netlify dev",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "framer-motion": "^12.38.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.0",
+    "vite": "^8.0.0"
+  }
+}

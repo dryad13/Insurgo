@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Insurgo Design v2 — Preview (Light)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;510;590;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /*
+    Insurgo Design v2 — Light mode preview
+    Dark mode is the primary surface. This light variant exists for
+    printable PDFs, letterheads, and contexts where dark cannot be used.
+  */
+  :root {
+    --bg-canvas:       #F7F8F8;
+    --bg-panel:        #FFFFFF;
+    --bg-surface:      #F3F4F5;
+    --bg-surface-2:    #EBEDEF;
+
+    --text-primary:    #0A0A0F;
+    --text-secondary:  #3A3D42;
+    --text-tertiary:   #62666D;
+    --text-quaternary: #8A8F98;
+
+    --accent:          #FB0C0C;
+    --accent-hover:    #D40808;
+    --accent-active:   #950707;
+    --accent-deep:     #7A0606;
+    --accent-focus:    rgba(251, 12, 12, 0.45);
+    --accent-tint:     rgba(251, 12, 12, 0.08);
+    --accent-ring:     rgba(251, 12, 12, 0.25);
+
+    --status-green:    #16803C;
+    --status-emerald:  #0F946B;
+    --status-amber:    #B87A1F;
+
+    --border-subtle:   rgba(10, 10, 15, 0.06);
+    --border-standard: rgba(10, 10, 15, 0.10);
+    --border-strong:   #D0D6E0;
+    --border-accent:   rgba(251, 12, 12, 0.35);
+    --border-accent-strong: rgba(251, 12, 12, 0.65);
+
+    --font-sans: "Inter Variable", "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+    --r-md: 6px; --r-card: 8px; --r-panel: 12px; --r-pill: 9999px; --r-full: 50%; --r-sm: 4px; --r-micro: 2px;
+    --shadow-focus: 0 0 0 3px var(--accent-ring);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg-canvas);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv01", "ss03";
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 1200px; margin: 0 auto; padding: 64px 32px 128px; }
+
+  .page-header { margin-bottom: 64px; }
+  .eyebrow {
+    font-size: 11px; font-weight: 510; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+  }
+  h1.display-xl {
+    font-size: 72px; font-weight: 510; line-height: 1.00;
+    letter-spacing: -1.584px; margin: 0 0 16px; color: var(--text-primary);
+  }
+  p.lead {
+    font-size: 18px; font-weight: 400; line-height: 1.60;
+    letter-spacing: -0.165px; color: var(--text-tertiary); margin: 0; max-width: 60ch;
+  }
+  .toggle-row { display: flex; gap: 8px; margin-top: 24px; }
+
+  section { margin-bottom: 80px; }
+  h2.section-title {
+    font-size: 24px; font-weight: 400; line-height: 1.33;
+    letter-spacing: -0.288px; margin: 0 0 24px; color: var(--text-primary);
+  }
+  .section-desc {
+    font-size: 15px; color: var(--text-tertiary);
+    letter-spacing: -0.165px; margin: -16px 0 32px; max-width: 60ch;
+  }
+
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .swatch {
+    background: var(--bg-panel); border: 1px solid var(--border-standard);
+    border-radius: var(--r-card); padding: 16px;
+  }
+  .swatch-chip { height: 72px; border-radius: var(--r-md); margin-bottom: 12px; border: 1px solid var(--border-subtle); }
+  .swatch-name { font-size: 13px; font-weight: 510; color: var(--text-primary); margin-bottom: 2px; }
+  .swatch-hex { font-family: var(--font-mono); font-size: 12px; color: var(--text-tertiary); }
+  .swatch-role { font-size: 11px; color: var(--text-quaternary); margin-top: 4px; }
+
+  .type-row {
+    display: grid; grid-template-columns: 140px 1fr; gap: 24px;
+    padding: 16px 0; border-bottom: 1px solid var(--border-subtle); align-items: baseline;
+  }
+  .type-label { font-family: var(--font-mono); font-size: 12px; color: var(--text-tertiary); }
+  .type-sample { color: var(--text-primary); }
+
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .btn {
+    font-family: var(--font-sans); font-feature-settings: "cv01", "ss03";
+    font-size: 14px; font-weight: 510; padding: 8px 16px;
+    border-radius: var(--r-md); border: 1px solid transparent;
+    cursor: pointer; transition: background-color 120ms ease, border-color 120ms ease;
+    line-height: 1.2;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-primary:active { background: var(--accent-active); }
+  .btn-ghost { background: var(--bg-panel); color: var(--text-primary); border-color: var(--border-standard); }
+  .btn-ghost:hover { background: var(--bg-surface); }
+  .btn-subtle { background: var(--bg-surface); color: var(--text-secondary); padding: 6px 10px; font-size: 13px; }
+  .btn-pill { background: transparent; color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--r-pill); padding: 4px 12px; font-size: 12px; }
+  .btn-icon { width: 32px; height: 32px; border-radius: var(--r-full); background: var(--bg-panel); border: 1px solid var(--border-standard); color: var(--text-primary); padding: 0; display: inline-flex; align-items: center; justify-content: center; }
+
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--bg-panel); border: 1px solid var(--border-standard);
+    border-radius: var(--r-card); padding: 24px;
+    transition: background-color 150ms ease, border-color 150ms ease;
+  }
+  .card:hover { background: var(--bg-surface); }
+  .card.accent { border-color: var(--border-accent); }
+  .card h3 { font-size: 20px; font-weight: 590; letter-spacing: -0.24px; color: var(--text-primary); margin: 0 0 8px; }
+  .card p { font-size: 15px; font-weight: 400; line-height: 1.60; letter-spacing: -0.165px; color: var(--text-tertiary); margin: 0; }
+
+  .badge-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .badge {
+    font-family: var(--font-sans); font-feature-settings: "cv01", "ss03";
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 510; padding: 3px 10px;
+    border-radius: var(--r-pill); border: 1px solid transparent;
+  }
+  .badge-success { background: var(--status-emerald); color: #fff; }
+  .badge-neutral { background: transparent; color: var(--text-secondary); border-color: var(--border-strong); }
+  .badge-subtle  { background: var(--bg-surface); color: var(--text-primary); border-color: var(--border-subtle); border-radius: var(--r-micro); font-size: 10px; }
+  .badge-accent  { background: var(--accent-tint); color: var(--accent-hover); border-color: var(--border-accent); }
+
+  .input {
+    font-family: var(--font-sans); font-size: 14px;
+    background: var(--bg-panel); color: var(--text-secondary);
+    border: 1px solid var(--border-standard); padding: 10px 12px;
+    border-radius: var(--r-md); width: 100%; max-width: 320px; outline: none;
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+  }
+  .input::placeholder { color: var(--text-quaternary); }
+  .input:focus { border-color: var(--border-accent-strong); box-shadow: var(--shadow-focus); }
+
+  .table-wrap {
+    background: var(--bg-panel); border: 1px solid var(--border-standard);
+    border-radius: var(--r-panel); padding: 12px 16px; overflow-x: auto;
+  }
+  table.price { width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-feature-settings: "cv01", "ss03"; }
+  table.price th {
+    text-align: left; font-size: 11px; font-weight: 510;
+    letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-tertiary);
+    padding: 10px 12px; border-bottom: 1px solid var(--border-subtle);
+  }
+  table.price td { font-size: 14px; font-weight: 400; color: var(--text-secondary); padding: 10px 12px; border-bottom: 1px solid var(--border-subtle); vertical-align: top; }
+  table.price td:last-child { text-align: right; color: var(--text-primary); font-weight: 590; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  table.price tr.total-row td { background: var(--accent-tint); border-top: 1px solid var(--border-accent); border-bottom: none; font-weight: 590; color: var(--text-primary); }
+
+  pre.code {
+    margin: 0; font-family: var(--font-mono); font-size: 13px; line-height: 1.55;
+    color: var(--text-secondary); background: var(--bg-surface);
+    border: 1px solid var(--border-standard); border-radius: var(--r-card);
+    padding: 14px 16px; overflow-x: auto;
+  }
+  code.inline {
+    font-family: var(--font-mono); font-size: 0.875em;
+    background: var(--bg-surface); padding: 1px 6px;
+    border-radius: var(--r-sm); color: var(--text-primary);
+  }
+
+  .nav-preview {
+    background: var(--bg-panel); border: 1px solid var(--border-subtle);
+    border-radius: var(--r-panel); padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+  }
+  .nav-preview .logo { font-size: 15px; font-weight: 590; letter-spacing: -0.2px; color: var(--text-primary); }
+  .nav-preview .logo-dot { display: inline-block; width: 8px; height: 8px; background: var(--accent); border-radius: var(--r-full); margin-right: 8px; vertical-align: middle; box-shadow: 0 0 8px var(--accent-focus); }
+  .nav-preview nav { display: flex; gap: 24px; }
+  .nav-preview nav a { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 510; transition: color 100ms ease; }
+  .nav-preview nav a:hover { color: var(--text-primary); }
+
+  .spacing-row { display: flex; gap: 16px; align-items: flex-end; }
+  .spacing-box { background: var(--accent-tint); border: 1px solid var(--border-accent); border-radius: var(--r-sm); }
+  .spacing-cap { font-family: var(--font-mono); font-size: 11px; color: var(--text-tertiary); text-align: center; margin-top: 6px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="page-header">
+    <div class="eyebrow">Insurgo · Design System v2 · Light</div>
+    <h1 class="display-xl">Precision<br />over spectacle.</h1>
+    <p class="lead">Light variant for printed materials, proposals, and contexts where dark surfaces aren't appropriate. The red accent, type system, and component language stay constant.</p>
+    <div class="toggle-row">
+      <a href="./preview.html" class="btn btn-ghost">Dark</a>
+      <a href="./preview-light.html" class="btn btn-primary" aria-current="page">Light</a>
+    </div>
+  </div>
+
+  <section>
+    <h2 class="section-title">Color palette</h2>
+    <p class="section-desc">Light neutrals with <strong style="color:var(--accent)">Insurgo Red</strong> as the single chromatic accent.</p>
+
+    <h3 style="font-size:13px;font-weight:510;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.09em;margin:16px 0 8px">Background surfaces</h3>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-chip" style="background:#F7F8F8"></div><div class="swatch-name">Canvas</div><div class="swatch-hex">#F7F8F8</div><div class="swatch-role">Page / hero bg</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#FFFFFF"></div><div class="swatch-name">Panel</div><div class="swatch-hex">#FFFFFF</div><div class="swatch-role">Cards, nav</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#F3F4F5"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#F3F4F5</div><div class="swatch-role">Subtle fill</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#EBEDEF"></div><div class="swatch-name">Surface 2</div><div class="swatch-hex">#EBEDEF</div><div class="swatch-role">Hover</div></div>
+    </div>
+
+    <h3 style="font-size:13px;font-weight:510;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.09em;margin:32px 0 8px">Accent — Insurgo Red</h3>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-chip" style="background:#FB0C0C"></div><div class="swatch-name">Accent</div><div class="swatch-hex">#FB0C0C</div><div class="swatch-role">Primary CTA</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#D40808"></div><div class="swatch-name">Accent Hover</div><div class="swatch-hex">#D40808</div><div class="swatch-role">Hover (light-context)</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#950707"></div><div class="swatch-name">Accent Active</div><div class="swatch-hex">#950707</div><div class="swatch-role">Pressed</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#7A0606"></div><div class="swatch-name">Accent Deep</div><div class="swatch-hex">#7A0606</div><div class="swatch-role">Gradient bottom</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Typography — Inter Variable</h2>
+    <p class="section-desc">Same scale and tracking as dark. Signature weight <strong>510</strong>.</p>
+    <div class="type-row"><div class="type-label">Display XL / 72px / 510</div><div class="type-sample" style="font-size:72px;font-weight:510;line-height:1.0;letter-spacing:-1.584px">Build the system.</div></div>
+    <div class="type-row"><div class="type-label">Display / 48px / 510</div><div class="type-sample" style="font-size:48px;font-weight:510;line-height:1.0;letter-spacing:-1.056px">Automation with discipline</div></div>
+    <div class="type-row"><div class="type-label">H1 / 32px / 400</div><div class="type-sample" style="font-size:32px;font-weight:400;line-height:1.13;letter-spacing:-0.704px">Real estate marketing, automated end-to-end</div></div>
+    <div class="type-row"><div class="type-label">H2 / 24px / 400</div><div class="type-sample" style="font-size:24px;font-weight:400;line-height:1.33;letter-spacing:-0.288px">What happens when a lead lands</div></div>
+    <div class="type-row"><div class="type-label">H3 / 20px / 590</div><div class="type-sample" style="font-size:20px;font-weight:590;line-height:1.33;letter-spacing:-0.24px">AI creatives pipeline</div></div>
+    <div class="type-row"><div class="type-label">Body / 16px / 400</div><div class="type-sample" style="font-size:16px;font-weight:400;line-height:1.50">The moment a lead comes in, WhatsApp fires automatically.</div></div>
+    <div class="type-row"><div class="type-label">Small / 15px / 400</div><div class="type-sample" style="font-size:15px;font-weight:400;line-height:1.60;letter-spacing:-0.165px;color:var(--text-tertiary)">Secondary body text.</div></div>
+    <div class="type-row"><div class="type-label">Mono / 14px / 400</div><div class="type-sample" style="font-family:var(--font-mono);font-size:14px;color:var(--text-secondary)">npx getdesign@latest add linear.app</div></div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Buttons</h2>
+    <div class="btn-row">
+      <button class="btn btn-primary">Start building</button>
+      <button class="btn btn-ghost">Learn more</button>
+      <button class="btn btn-subtle">Copy link</button>
+      <button class="btn btn-pill">· All regions</button>
+      <button class="btn btn-icon" aria-label="Menu"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h10M2 7h10M2 10h10"/></svg></button>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Cards</h2>
+    <div class="cards-grid">
+      <div class="card"><h3>Standard card</h3><p>Default light surface with subtle border.</p></div>
+      <div class="card accent"><h3>Accent card</h3><p>Border shifts to Insurgo Red for brand-highlighted features.</p></div>
+      <div class="card"><h3>Featured card</h3><p>Same treatment, larger radius and padding for marquee use.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Badges &amp; pills</h2>
+    <div class="badge-row">
+      <span class="badge badge-success">● Live</span>
+      <span class="badge badge-neutral">Marketing</span>
+      <span class="badge badge-neutral">Automation</span>
+      <span class="badge badge-subtle">v2.0</span>
+      <span class="badge badge-accent">Beta</span>
+      <span class="badge badge-accent">Insurgo-powered</span>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Inputs</h2>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <input class="input" placeholder="Your business email" />
+      <input class="input" placeholder="Focused input" />
+      <input class="input" disabled placeholder="Disabled" style="opacity:0.55" />
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Navigation</h2>
+    <div class="nav-preview">
+      <div class="logo"><span class="logo-dot"></span>Insurgo</div>
+      <nav><a href="#">Product</a><a href="#">Systems</a><a href="#">Pricing</a><a href="#">Docs</a></nav>
+      <button class="btn btn-primary">Book a call</button>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Pricing table</h2>
+    <div class="table-wrap">
+      <table class="price">
+        <thead><tr><th>Component</th><th>What's included</th><th>Cost</th></tr></thead>
+        <tbody>
+          <tr><td>Website</td><td>Responsive React build, lead capture, Meta Pixel</td><td>PKR 95,000</td></tr>
+          <tr><td>CRM Setup</td><td>HubSpot or Airtable pipeline, automated assignment</td><td>PKR 75,000</td></tr>
+          <tr><td>AI Creatives Pipeline</td><td>Puppeteer compositor, Claude copy, Flux imagery</td><td>PKR 1,20,000</td></tr>
+          <tr class="total-row"><td>Total Setup</td><td>Complete end-to-end system</td><td>PKR 2,90,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Spacing scale</h2>
+    <div class="spacing-row">
+      <div><div class="spacing-box" style="width:4px;height:48px"></div><div class="spacing-cap">4</div></div>
+      <div><div class="spacing-box" style="width:8px;height:48px"></div><div class="spacing-cap">8</div></div>
+      <div><div class="spacing-box" style="width:12px;height:48px"></div><div class="spacing-cap">12</div></div>
+      <div><div class="spacing-box" style="width:16px;height:48px"></div><div class="spacing-cap">16</div></div>
+      <div><div class="spacing-box" style="width:24px;height:48px"></div><div class="spacing-cap">24</div></div>
+      <div><div class="spacing-box" style="width:32px;height:48px"></div><div class="spacing-cap">32</div></div>
+      <div><div class="spacing-box" style="width:48px;height:48px"></div><div class="spacing-cap">48</div></div>
+      <div><div class="spacing-box" style="width:64px;height:48px"></div><div class="spacing-cap">64</div></div>
+      <div><div class="spacing-box" style="width:96px;height:48px"></div><div class="spacing-cap">96</div></div>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid var(--border-subtle);padding-top:24px;font-size:13px;color:var(--text-quaternary);font-family:var(--font-mono)">
+    Insurgo Design v2 · Light · Generated from <code class="inline">DESIGN.md</code>
+  </footer>
+
+</div>
+</body>
+</html>

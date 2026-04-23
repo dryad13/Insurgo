@@ -1,0 +1,105 @@
+/* ═══════════════════════════════════════════════════════════════
+   Insurgo Design System v2 — CSS Custom Properties
+   Drop this into any project and import once at the root.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Backgrounds */
+  --bg-canvas:       #0A0A0F;
+  --bg-panel:        #0F1011;
+  --bg-surface:      #191A1B;
+  --bg-surface-2:    #28282C;
+
+  /* Text */
+  --text-primary:    #F7F8F8;
+  --text-secondary:  #D0D6E0;
+  --text-tertiary:   #8A8F98;
+  --text-quaternary: #62666D;
+
+  /* Accent — Insurgo Red */
+  --accent:          #FB0C0C;
+  --accent-hover:    #FF3434;
+  --accent-active:   #FF5555;
+  --accent-deep:     #950707;
+  --accent-focus:    rgba(251, 12, 12, 0.45);
+  --accent-tint:     rgba(251, 12, 12, 0.10);
+  --accent-ring:     rgba(251, 12, 12, 0.25);
+
+  /* Status */
+  --status-green:    #27A644;
+  --status-emerald:  #10B981;
+  --status-amber:    #E8A33D;
+  --status-red:      #FB0C0C;
+
+  /* Borders */
+  --border-subtle:         rgba(255, 255, 255, 0.05);
+  --border-standard:       rgba(255, 255, 255, 0.08);
+  --border-strong:         #23252A;
+  --border-accent:         rgba(251, 12, 12, 0.30);
+  --border-accent-strong:  rgba(251, 12, 12, 0.55);
+
+  /* Overlay */
+  --overlay:         rgba(0, 0, 0, 0.85);
+
+  /* Radii */
+  --r-micro:  2px;
+  --r-sm:     4px;
+  --r-md:     6px;
+  --r-card:   8px;
+  --r-panel:  12px;
+  --r-lg:     22px;
+  --r-pill:   9999px;
+  --r-full:   50%;
+
+  /* Spacing (8px grid) */
+  --s-1: 1px;  --s-4: 4px;  --s-8: 8px;  --s-12: 12px;
+  --s-16: 16px; --s-20: 20px; --s-24: 24px; --s-32: 32px;
+  --s-40: 40px; --s-48: 48px; --s-64: 64px; --s-80: 80px;
+  --s-96: 96px; --s-128: 128px;
+
+  /* Typography */
+  --font-sans: "Inter Variable", "Inter", -apple-system, BlinkMacSystemFont,
+               "SF Pro Display", system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-features: "cv01", "ss03";
+
+  /* Weights */
+  --fw-read:     400;
+  --fw-signature: 510;
+  --fw-emphasis: 590;
+
+  /* Shadows */
+  --shadow-subtle:  0 1.2px 0 0 rgba(0, 0, 0, 0.03);
+  --shadow-inset:   inset 0 0 12px 0 rgba(0, 0, 0, 0.2);
+  --shadow-ring:    0 0 0 1px rgba(0, 0, 0, 0.2);
+  --shadow-float:   0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-dialog:
+    0 8px 2px rgba(0, 0, 0, 0),
+    0 5px 2px rgba(0, 0, 0, 0.01),
+    0 3px 2px rgba(0, 0, 0, 0.04),
+    0 1px 1px rgba(0, 0, 0, 0.07),
+    0 0 1px   rgba(0, 0, 0, 0.08);
+  --shadow-focus:   0 0 0 3px var(--accent-ring);
+}
+
+/* Global baseline */
+html {
+  background: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-feature-settings: var(--font-features);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent-tint);
+  color: var(--text-primary);
+}
+
+:focus-visible {
+  outline: none;
+  border-color: var(--border-accent-strong);
+  box-shadow: var(--shadow-focus);
+}

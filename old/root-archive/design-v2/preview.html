@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Insurgo Design v2 — Preview (Dark)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;510;590;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./tokens.css" />
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg-canvas);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-feature-settings: var(--font-features);
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 1200px; margin: 0 auto; padding: 64px 32px 128px; }
+
+  /* Page header */
+  .page-header { margin-bottom: 64px; }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 510;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  h1.display-xl {
+    font-size: 72px;
+    font-weight: 510;
+    line-height: 1.00;
+    letter-spacing: -1.584px;
+    margin: 0 0 16px;
+    color: var(--text-primary);
+  }
+  p.lead {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.60;
+    letter-spacing: -0.165px;
+    color: var(--text-tertiary);
+    margin: 0;
+    max-width: 60ch;
+  }
+  .toggle-row {
+    display: flex; gap: 8px; margin-top: 24px;
+  }
+
+  /* Sections */
+  section { margin-bottom: 80px; }
+  h2.section-title {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.33;
+    letter-spacing: -0.288px;
+    margin: 0 0 24px;
+    color: var(--text-primary);
+  }
+  .section-desc {
+    font-size: 15px;
+    color: var(--text-tertiary);
+    letter-spacing: -0.165px;
+    margin: -16px 0 32px;
+    max-width: 60ch;
+  }
+
+  /* Color swatches */
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .swatch {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-standard);
+    border-radius: var(--r-card);
+    padding: 16px;
+  }
+  .swatch-chip {
+    height: 72px;
+    border-radius: var(--r-md);
+    margin-bottom: 12px;
+    border: 1px solid var(--border-subtle);
+  }
+  .swatch-name {
+    font-size: 13px;
+    font-weight: 510;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+  }
+  .swatch-hex {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+  .swatch-role {
+    font-size: 11px;
+    color: var(--text-quaternary);
+    margin-top: 4px;
+    letter-spacing: -0.05px;
+  }
+
+  /* Typography scale */
+  .type-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-subtle);
+    align-items: baseline;
+  }
+  .type-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+  .type-sample { color: var(--text-primary); }
+
+  /* Buttons */
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .btn {
+    font-family: var(--font-sans);
+    font-feature-settings: var(--font-features);
+    font-size: 14px;
+    font-weight: 510;
+    padding: 8px 16px;
+    border-radius: var(--r-md);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+    line-height: 1.2;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-primary:active { background: var(--accent-active); }
+
+  .btn-ghost {
+    background: rgba(255,255,255,0.02);
+    color: #E2E4E7;
+    border-color: var(--border-standard);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.05); }
+
+  .btn-subtle {
+    background: rgba(255,255,255,0.04);
+    color: var(--text-secondary);
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  .btn-subtle:hover { background: rgba(255,255,255,0.08); }
+
+  .btn-pill {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-pill);
+    padding: 4px 12px;
+    font-size: 12px;
+  }
+
+  .btn-icon {
+    width: 32px; height: 32px;
+    border-radius: var(--r-full);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border-standard);
+    color: var(--text-primary);
+    padding: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+
+  /* Cards */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-standard);
+    border-radius: var(--r-card);
+    padding: 24px;
+    transition: background-color 150ms ease, border-color 150ms ease;
+  }
+  .card:hover { background: rgba(255,255,255,0.04); }
+  .card.accent { border-color: var(--border-accent); }
+  .card h3 {
+    font-size: 20px;
+    font-weight: 590;
+    letter-spacing: -0.24px;
+    color: var(--text-primary);
+    margin: 0 0 8px;
+  }
+  .card p {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.60;
+    letter-spacing: -0.165px;
+    color: var(--text-tertiary);
+    margin: 0;
+  }
+
+  /* Badges */
+  .badge-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .badge {
+    font-family: var(--font-sans);
+    font-feature-settings: var(--font-features);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 510;
+    padding: 3px 10px;
+    border-radius: var(--r-pill);
+    border: 1px solid transparent;
+  }
+  .badge-success { background: var(--status-emerald); color: var(--text-primary); }
+  .badge-neutral { background: transparent; color: var(--text-secondary); border-color: var(--border-strong); }
+  .badge-subtle { background: rgba(255,255,255,0.05); color: var(--text-primary); border-color: var(--border-subtle); border-radius: var(--r-micro); font-size: 10px; }
+  .badge-accent { background: var(--accent-tint); color: var(--accent-active); border-color: var(--border-accent); }
+
+  /* Inputs */
+  .input {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    background: rgba(255,255,255,0.02);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-standard);
+    padding: 10px 12px;
+    border-radius: var(--r-md);
+    width: 100%;
+    max-width: 320px;
+    outline: none;
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+  }
+  .input::placeholder { color: var(--text-quaternary); }
+  .input:focus {
+    border-color: var(--border-accent-strong);
+    box-shadow: var(--shadow-focus);
+  }
+
+  /* Table (pricing-style) */
+  .table-wrap {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-standard);
+    border-radius: var(--r-panel);
+    padding: 12px 16px;
+    overflow-x: auto;
+  }
+  table.price {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-feature-settings: var(--font-features);
+  }
+  table.price th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 510;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  table.price td {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: top;
+  }
+  table.price td:last-child {
+    text-align: right;
+    color: var(--text-primary);
+    font-weight: 590;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  table.price tr.total-row td {
+    background: rgba(251, 12, 12, 0.06);
+    border-top: 1px solid var(--border-accent);
+    border-bottom: none;
+    font-weight: 590;
+    color: var(--text-primary);
+  }
+
+  /* Code */
+  pre.code {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    background: var(--bg-panel);
+    border: 1px solid var(--border-standard);
+    border-radius: var(--r-card);
+    padding: 14px 16px;
+    overflow-x: auto;
+  }
+  code.inline {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    background: rgba(255,255,255,0.04);
+    padding: 1px 6px;
+    border-radius: var(--r-sm);
+    color: var(--text-primary);
+  }
+
+  /* Nav preview */
+  .nav-preview {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--r-panel);
+    padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .nav-preview .logo {
+    font-size: 15px;
+    font-weight: 590;
+    letter-spacing: -0.2px;
+    color: var(--text-primary);
+  }
+  .nav-preview .logo-dot {
+    display: inline-block; width: 8px; height: 8px;
+    background: var(--accent); border-radius: var(--r-full);
+    margin-right: 8px; vertical-align: middle;
+    box-shadow: 0 0 8px var(--accent-focus);
+  }
+  .nav-preview nav { display: flex; gap: 24px; }
+  .nav-preview nav a {
+    color: var(--text-secondary); text-decoration: none;
+    font-size: 14px; font-weight: 510;
+    transition: color 100ms ease;
+  }
+  .nav-preview nav a:hover { color: var(--text-primary); }
+
+  /* Spacing scale */
+  .spacing-row { display: flex; gap: 16px; align-items: flex-end; }
+  .spacing-box { background: var(--accent-tint); border: 1px solid var(--border-accent); border-radius: var(--r-sm); }
+  .spacing-cap { font-family: var(--font-mono); font-size: 11px; color: var(--text-tertiary); text-align: center; margin-top: 6px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="eyebrow">Insurgo · Design System v2</div>
+    <h1 class="display-xl">Precision<br />over spectacle.</h1>
+    <p class="lead">Linear-inspired structure, Insurgo-red accent, Inter Variable with <code class="inline">"cv01", "ss03"</code>. This preview renders every token end-to-end.</p>
+    <div class="toggle-row">
+      <a href="./preview.html" class="btn btn-primary" aria-current="page">Dark</a>
+      <a href="./preview-light.html" class="btn btn-ghost">Light</a>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <section>
+    <h2 class="section-title">Color palette</h2>
+    <p class="section-desc">Achromatic backgrounds + text, with <strong style="color:var(--accent-active)">Insurgo Red</strong> as the single chromatic accent.</p>
+
+    <h3 style="font-size:13px;font-weight:510;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.09em;margin:16px 0 8px">Background surfaces</h3>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-chip" style="background:#0A0A0F"></div><div class="swatch-name">Canvas</div><div class="swatch-hex">#0A0A0F</div><div class="swatch-role">Page / hero bg</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#0F1011"></div><div class="swatch-name">Panel</div><div class="swatch-hex">#0F1011</div><div class="swatch-role">Nav, sidebar</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#191A1B"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#191A1B</div><div class="swatch-role">Cards, dropdowns</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#28282C"></div><div class="swatch-name">Surface 2</div><div class="swatch-hex">#28282C</div><div class="swatch-role">Hover elevated</div></div>
+    </div>
+
+    <h3 style="font-size:13px;font-weight:510;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.09em;margin:32px 0 8px">Text</h3>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-chip" style="background:#F7F8F8"></div><div class="swatch-name">Primary</div><div class="swatch-hex">#F7F8F8</div><div class="swatch-role">Headings, default</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#D0D6E0"></div><div class="swatch-name">Secondary</div><div class="swatch-hex">#D0D6E0</div><div class="swatch-role">Body copy</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#8A8F98"></div><div class="swatch-name">Tertiary</div><div class="swatch-hex">#8A8F98</div><div class="swatch-role">Meta, placeholder</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#62666D"></div><div class="swatch-name">Quaternary</div><div class="swatch-hex">#62666D</div><div class="swatch-role">Disabled, subtle</div></div>
+    </div>
+
+    <h3 style="font-size:13px;font-weight:510;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.09em;margin:32px 0 8px">Accent — Insurgo Red</h3>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-chip" style="background:#FB0C0C"></div><div class="swatch-name">Accent</div><div class="swatch-hex">#FB0C0C</div><div class="swatch-role">Primary CTA</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#FF3434"></div><div class="swatch-name">Accent Hover</div><div class="swatch-hex">#FF3434</div><div class="swatch-role">Hover state</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#FF5555"></div><div class="swatch-name">Accent Active</div><div class="swatch-hex">#FF5555</div><div class="swatch-role">Active / link</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#950707"></div><div class="swatch-name">Accent Deep</div><div class="swatch-hex">#950707</div><div class="swatch-role">Pressed, gradient</div></div>
+    </div>
+
+    <h3 style="font-size:13px;font-weight:510;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.09em;margin:32px 0 8px">Status</h3>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-chip" style="background:#27A644"></div><div class="swatch-name">Green</div><div class="swatch-hex">#27A644</div><div class="swatch-role">Active</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#10B981"></div><div class="swatch-name">Emerald</div><div class="swatch-hex">#10B981</div><div class="swatch-role">Success pill</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#E8A33D"></div><div class="swatch-name">Amber</div><div class="swatch-hex">#E8A33D</div><div class="swatch-role">Warning</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#FB0C0C"></div><div class="swatch-name">Error</div><div class="swatch-hex">#FB0C0C</div><div class="swatch-role">Error context</div></div>
+    </div>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section>
+    <h2 class="section-title">Typography — Inter Variable</h2>
+    <p class="section-desc">Globally apply <code class="inline">font-feature-settings: "cv01", "ss03"</code>. Signature weight is <strong>510</strong>.</p>
+
+    <div class="type-row"><div class="type-label">Display XL / 72px / 510</div><div class="type-sample" style="font-size:72px;font-weight:510;line-height:1.0;letter-spacing:-1.584px">Build the system.</div></div>
+    <div class="type-row"><div class="type-label">Display / 48px / 510</div><div class="type-sample" style="font-size:48px;font-weight:510;line-height:1.0;letter-spacing:-1.056px">Automation with discipline</div></div>
+    <div class="type-row"><div class="type-label">H1 / 32px / 400</div><div class="type-sample" style="font-size:32px;font-weight:400;line-height:1.13;letter-spacing:-0.704px">Real estate marketing, automated end-to-end</div></div>
+    <div class="type-row"><div class="type-label">H2 / 24px / 400</div><div class="type-sample" style="font-size:24px;font-weight:400;line-height:1.33;letter-spacing:-0.288px">What happens when a lead lands</div></div>
+    <div class="type-row"><div class="type-label">H3 / 20px / 590</div><div class="type-sample" style="font-size:20px;font-weight:590;line-height:1.33;letter-spacing:-0.24px">AI creatives pipeline</div></div>
+    <div class="type-row"><div class="type-label">Body Large / 18px / 400</div><div class="type-sample" style="font-size:18px;font-weight:400;line-height:1.60;letter-spacing:-0.165px">Your team fills a simple form; Claude generates ad copy; Flux generates a visual; Puppeteer composites it; Meta launches the campaign.</div></div>
+    <div class="type-row"><div class="type-label">Body / 16px / 400</div><div class="type-sample" style="font-size:16px;font-weight:400;line-height:1.50">The moment a lead comes in, WhatsApp fires automatically and a drip sequence keeps them warm until an agent closes.</div></div>
+    <div class="type-row"><div class="type-label">Body Medium / 16px / 510</div><div class="type-sample" style="font-size:16px;font-weight:510;line-height:1.50">Used for navigation, UI labels, and emphasis inline.</div></div>
+    <div class="type-row"><div class="type-label">Small / 15px / 400</div><div class="type-sample" style="font-size:15px;font-weight:400;line-height:1.60;letter-spacing:-0.165px;color:var(--text-tertiary)">Secondary body text for captions and support copy.</div></div>
+    <div class="type-row"><div class="type-label">Caption / 13px / 510</div><div class="type-sample" style="font-size:13px;font-weight:510;line-height:1.5;letter-spacing:-0.13px;color:var(--text-tertiary)">LAST UPDATED · 2026-04-20</div></div>
+    <div class="type-row"><div class="type-label">Mono / 14px / 400</div><div class="type-sample" style="font-family:var(--font-mono);font-size:14px;font-weight:400;color:var(--text-secondary)">npx getdesign@latest add linear.app</div></div>
+  </section>
+
+  <!-- BUTTONS -->
+  <section>
+    <h2 class="section-title">Buttons</h2>
+    <p class="section-desc">One primary per view. Ghost for secondary. Pill for filters. Icon for compact actions.</p>
+    <div class="btn-row">
+      <button class="btn btn-primary">Start building</button>
+      <button class="btn btn-ghost">Learn more</button>
+      <button class="btn btn-subtle">Copy link</button>
+      <button class="btn btn-pill">· All regions</button>
+      <button class="btn btn-icon" aria-label="Menu">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h10M2 7h10M2 10h10"/></svg>
+      </button>
+    </div>
+    <div style="margin-top:16px;font-family:var(--font-mono);font-size:12px;color:var(--text-tertiary)">Hover → lightens · Focus → 3px red ring · Disabled → <code class="inline">rgba(255,255,255,0.04)</code></div>
+  </section>
+
+  <!-- CARDS -->
+  <section>
+    <h2 class="section-title">Cards</h2>
+    <p class="section-desc">Transparency is the system — cards emerge from the canvas by small luminance steps, not solid fills.</p>
+    <div class="cards-grid">
+      <div class="card">
+        <h3>Standard card</h3>
+        <p>Default surface. <code class="inline">rgba(255,255,255,0.02)</code> bg, <code class="inline">rgba(255,255,255,0.08)</code> border, 8px radius.</p>
+      </div>
+      <div class="card accent">
+        <h3>Accent card</h3>
+        <p>For brand-highlighted features. Border shifts to <code class="inline">rgba(251,12,12,0.30)</code>; fill stays neutral.</p>
+      </div>
+      <div class="card">
+        <h3>Featured card</h3>
+        <p>Use <code class="inline">--r-panel</code> (12px) for marquee features; keep padding at 24–32px.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BADGES -->
+  <section>
+    <h2 class="section-title">Badges &amp; pills</h2>
+    <div class="badge-row">
+      <span class="badge badge-success">● Live</span>
+      <span class="badge badge-neutral">Marketing</span>
+      <span class="badge badge-neutral">Automation</span>
+      <span class="badge badge-subtle">v2.0</span>
+      <span class="badge badge-accent">Beta</span>
+      <span class="badge badge-accent">Insurgo-powered</span>
+    </div>
+  </section>
+
+  <!-- INPUTS -->
+  <section>
+    <h2 class="section-title">Inputs</h2>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <input class="input" placeholder="Your business email" />
+      <input class="input" placeholder="Focused input — tab here" />
+      <input class="input" disabled placeholder="Disabled" style="opacity:0.55" />
+    </div>
+    <div style="margin-top:16px;font-family:var(--font-mono);font-size:12px;color:var(--text-tertiary)">Focus ring: 3px <code class="inline">rgba(251,12,12,0.25)</code>, border <code class="inline">rgba(251,12,12,0.55)</code></div>
+  </section>
+
+  <!-- NAV -->
+  <section>
+    <h2 class="section-title">Navigation</h2>
+    <div class="nav-preview">
+      <div class="logo"><span class="logo-dot"></span>Insurgo</div>
+      <nav>
+        <a href="#">Product</a>
+        <a href="#">Systems</a>
+        <a href="#">Pricing</a>
+        <a href="#">Docs</a>
+      </nav>
+      <button class="btn btn-primary">Book a call</button>
+    </div>
+    <div style="font-family:var(--font-mono);font-size:12px;color:var(--text-tertiary)">Sticky — 64px tall — <code class="inline">border-bottom: 1px solid rgba(255,255,255,0.05)</code></div>
+  </section>
+
+  <!-- TABLE -->
+  <section>
+    <h2 class="section-title">Pricing table</h2>
+    <p class="section-desc">Used in proposal deck. Total row uses the accent tint.</p>
+    <div class="table-wrap">
+      <table class="price">
+        <thead><tr><th>Component</th><th>What's included</th><th>Cost</th></tr></thead>
+        <tbody>
+          <tr><td>Website</td><td>Responsive React build, lead capture, Meta Pixel</td><td>PKR 95,000</td></tr>
+          <tr><td>CRM Setup</td><td>HubSpot or Airtable pipeline, automated assignment</td><td>PKR 75,000</td></tr>
+          <tr><td>AI Creatives Pipeline</td><td>Puppeteer compositor, Claude copy, Flux imagery</td><td>PKR 1,20,000</td></tr>
+          <tr class="total-row"><td>Total Setup</td><td>Complete end-to-end system</td><td>PKR 2,90,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SPACING -->
+  <section>
+    <h2 class="section-title">Spacing scale</h2>
+    <p class="section-desc">Primary rhythm: 8 / 16 / 24 / 32. Micro-values for optical alignment only.</p>
+    <div class="spacing-row">
+      <div><div class="spacing-box" style="width:4px;height:48px"></div><div class="spacing-cap">4</div></div>
+      <div><div class="spacing-box" style="width:8px;height:48px"></div><div class="spacing-cap">8</div></div>
+      <div><div class="spacing-box" style="width:12px;height:48px"></div><div class="spacing-cap">12</div></div>
+      <div><div class="spacing-box" style="width:16px;height:48px"></div><div class="spacing-cap">16</div></div>
+      <div><div class="spacing-box" style="width:24px;height:48px"></div><div class="spacing-cap">24</div></div>
+      <div><div class="spacing-box" style="width:32px;height:48px"></div><div class="spacing-cap">32</div></div>
+      <div><div class="spacing-box" style="width:48px;height:48px"></div><div class="spacing-cap">48</div></div>
+      <div><div class="spacing-box" style="width:64px;height:48px"></div><div class="spacing-cap">64</div></div>
+      <div><div class="spacing-box" style="width:96px;height:48px"></div><div class="spacing-cap">96</div></div>
+    </div>
+  </section>
+
+  <!-- CODE -->
+  <section>
+    <h2 class="section-title">Code</h2>
+<pre class="code">// Insurgo red button — canonical spec
+.btn-primary {
+  background: var(--accent);        /* #FB0C0C */
+  color: #fff;
+  font-family: var(--font-sans);
+  font-feature-settings: "cv01", "ss03";
+  font-size: 14px;
+  font-weight: 510;                 /* signature weight */
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+.btn-primary:hover  { background: var(--accent-hover); }
+.btn-primary:active { background: var(--accent-active); }
+.btn-primary:focus  { box-shadow: 0 0 0 3px var(--accent-ring); }</pre>
+  </section>
+
+  <!-- FOOTNOTE -->
+  <footer style="border-top:1px solid var(--border-subtle);padding-top:24px;font-size:13px;color:var(--text-quaternary);font-family:var(--font-mono)">
+    Insurgo Design v2 · Generated from <code class="inline">DESIGN.md</code> · Tokens in <code class="inline">tokens.css</code>
+  </footer>
+
+</div>
+</body>
+</html>

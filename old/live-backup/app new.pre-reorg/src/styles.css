@@ -1,0 +1,470 @@
+/* ═══════════════════════════════════════════════════════════════
+   Insurgo v2 — application stylesheet
+   Mirrors design-v2/tokens.css and layers on app-specific rules.
+   Source of truth: ../../design-v2/DESIGN.md
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Backgrounds */
+  --bg-canvas: #0a0a0f;
+  --bg-panel: #0f1011;
+  --bg-surface: #191a1b;
+  --bg-surface-2: #28282c;
+
+  /* Text */
+  --text-primary: #f7f8f8;
+  --text-secondary: #d0d6e0;
+  --text-tertiary: #8a8f98;
+  --text-quaternary: #62666d;
+
+  /* Accent — Insurgo Red (single chromatic accent) */
+  --accent: #fb0c0c;
+  --accent-hover: #ff3434;
+  --accent-active: #ff5555;
+  --accent-deep: #950707;
+  --accent-focus: rgba(251, 12, 12, 0.45);
+  --accent-tint: rgba(251, 12, 12, 0.1);
+  --accent-ring: rgba(251, 12, 12, 0.25);
+
+  /* Status */
+  --status-emerald: #10b981;
+
+  /* Borders */
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-standard: rgba(255, 255, 255, 0.08);
+  --border-strong: #23252a;
+  --border-accent: rgba(251, 12, 12, 0.3);
+  --border-accent-strong: rgba(251, 12, 12, 0.55);
+
+  /* Radii */
+  --r-micro: 2px;
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-card: 8px;
+  --r-panel: 12px;
+  --r-lg: 22px;
+  --r-pill: 9999px;
+  --r-full: 50%;
+
+  /* Fonts */
+  --font-sans: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont,
+    'SF Pro Display', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font-features: 'cv01', 'ss03';
+
+  /* Shadows */
+  --shadow-dialog: 0 8px 2px rgba(0, 0, 0, 0), 0 5px 2px rgba(0, 0, 0, 0.01),
+    0 3px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.07),
+    0 0 1px rgba(0, 0, 0, 0.08);
+  --shadow-focus: 0 0 0 3px var(--accent-ring);
+
+  /* Layout */
+  --container: 1200px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Every [id] landing target gets breathing room so sticky nav doesn't cover it */
+  scroll-padding-top: 96px;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-feature-settings: var(--font-features);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+section[id],
+[id]:target {
+  scroll-margin-top: 96px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+#root {
+  isolation: isolate;
+}
+
+/* Subtle canvas tint — an almost-invisible radial gradient that keeps the
+   page from feeling flat black. This REPLACES v1's aurora/scan/hex overlays. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+      ellipse 80% 50% at 50% 0%,
+      rgba(251, 12, 12, 0.06),
+      transparent 55%
+    ),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(255, 255, 255, 0.02), transparent 60%);
+  transform-origin: 50% 0%;
+  animation: canvas-breathe 8.5s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+@keyframes canvas-breathe {
+  0%,
+  100% {
+    opacity: 0.92;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.018);
+  }
+}
+
+main,
+nav,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+::selection {
+  background: var(--accent-tint);
+  color: var(--text-primary);
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+  border-radius: var(--r-md);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 120ms ease;
+}
+a:hover {
+  color: var(--text-primary);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ───── Typography utilities ───── */
+.display-xl,
+.display,
+h1, .h1,
+h2, .h2,
+h3, .h3 {
+  /* Balanced line-breaks keep short headings visually even (<=6 lines).
+     text-pretty fallback for long headings on Safari. */
+  text-wrap: balance;
+}
+
+.display-xl {
+  font-size: clamp(44px, 7vw, 72px);
+  font-weight: 510;
+  line-height: 1;
+  letter-spacing: -1.584px;
+  color: var(--text-primary);
+  margin: 0;
+}
+.display {
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 510;
+  line-height: 1.05;
+  letter-spacing: -1.056px;
+  color: var(--text-primary);
+  margin: 0;
+}
+h1,
+.h1 {
+  font-size: clamp(28px, 3.6vw, 32px);
+  font-weight: 400;
+  line-height: 1.13;
+  letter-spacing: -0.704px;
+  color: var(--text-primary);
+  margin: 0;
+}
+h2,
+.h2 {
+  font-size: clamp(22px, 2.6vw, 24px);
+  font-weight: 400;
+  line-height: 1.33;
+  letter-spacing: -0.288px;
+  color: var(--text-primary);
+  margin: 0;
+}
+h3,
+.h3 {
+  font-size: 20px;
+  font-weight: 590;
+  line-height: 1.33;
+  letter-spacing: -0.24px;
+  color: var(--text-primary);
+  margin: 0;
+}
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+.body,
+p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.05px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+.body-lg {
+  font-size: 18px;
+  line-height: 1.6;
+  letter-spacing: -0.165px;
+  color: var(--text-secondary);
+}
+.small {
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: -0.165px;
+  color: var(--text-tertiary);
+}
+.eyebrow {
+  font-size: 11px;
+  font-weight: 510;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* ───── Container & section ───── */
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-left: clamp(20px, 5vw, 48px);
+  padding-right: clamp(20px, 5vw, 48px);
+}
+
+.section {
+  padding-top: clamp(64px, 10vw, 128px);
+  padding-bottom: clamp(64px, 10vw, 128px);
+}
+
+.section-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 60ch;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 48px;
+  text-align: center;
+  align-items: center;
+}
+
+/* ───── Buttons ───── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-feature-settings: var(--font-features);
+  font-size: 14px;
+  font-weight: 510;
+  line-height: 1.2;
+  padding: 10px 18px;
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease,
+    transform 120ms ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #ffffff;
+}
+.btn-primary:hover {
+  background: var(--accent-hover);
+  color: #ffffff;
+}
+.btn-primary:active {
+  background: var(--accent-active);
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.02);
+  color: #e2e4e7;
+  border-color: var(--border-standard);
+}
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.btn-arrow::after {
+  content: '→';
+  display: inline-block;
+  transition: transform 150ms ease;
+}
+.btn-arrow:hover::after {
+  transform: translateX(2px);
+}
+
+/* ───── Cards ───── */
+.card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-standard);
+  border-radius: var(--r-card);
+  padding: 24px;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+.card:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.card-accent {
+  border-color: var(--border-accent);
+}
+
+/* ───── Pill / Badge ───── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-feature-settings: var(--font-features);
+  font-size: 11px;
+  font-weight: 510;
+  letter-spacing: 0;
+  color: var(--text-secondary);
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-strong);
+  background: transparent;
+}
+.pill-accent {
+  color: var(--accent-active);
+  background: var(--accent-tint);
+  border-color: var(--border-accent);
+}
+.pill-dot::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--r-full);
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-focus);
+}
+
+/* ───── Input ───── */
+.input {
+  font-family: var(--font-sans);
+  font-feature-settings: var(--font-features);
+  font-size: 15px;
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text-primary);
+  border: 1px solid var(--border-standard);
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  outline: none;
+  width: 100%;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+.input::placeholder {
+  color: var(--text-quaternary);
+}
+.input:focus {
+  border-color: var(--border-accent-strong);
+  box-shadow: var(--shadow-focus);
+}
+
+/* ───── Divider ───── */
+.hr {
+  border: 0;
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 0;
+}
+
+/* ───── Scrollbar ───── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: var(--r-pill);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ───── Accessibility helpers ───── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ───── Reduced motion ───── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  body::before {
+    animation: none !important;
+  }
+}
+
+/* ───── Mobile chat form: stack input over Send so nothing squeezes ───── */
+@media (max-width: 520px) {
+  .chat-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .chat-form .btn {
+    width: 100%;
+  }
+}

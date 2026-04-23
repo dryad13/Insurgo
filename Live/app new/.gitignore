@@ -1,0 +1,13 @@
+node_modules
+dist
+.DS_Store
+
+# Netlify local dev
+.netlify
+.env
+.env.local
+.env.*.local
+
+# Editor
+.vscode
+.idea
