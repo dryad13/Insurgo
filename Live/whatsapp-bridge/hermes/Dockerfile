@@ -7,7 +7,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN python -m pip install --no-cache-dir --upgrade pip && \
-    python -m pip install --no-cache-dir "hermes-agent[messaging,cron,cli,pty]==0.10.0"
+    python -m pip install --no-cache-dir \
+    "hermes-agent[messaging,cron,cli,pty] @ https://github.com/NousResearch/hermes-agent/archive/refs/heads/main.zip"
 
 ENV PATH="/root/.local/bin:${PATH}"
 ENV HERMES_HOME=/var/lib/hermes
