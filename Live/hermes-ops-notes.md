@@ -1,7 +1,7 @@
 # Insurgo Hermes Ops Notes (Render)
 
 This note tracks the minimum operations model for the Hermes WhatsApp runtime.
-The repository-level Render blueprint is [`render.yaml`](./render.yaml), which
+The repository-level Render blueprint is [`render.yaml`](../render.yaml), which
 deploys both:
 
 - Static site from [`app new`](./app new)

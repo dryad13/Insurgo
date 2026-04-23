@@ -19,7 +19,7 @@ This runbook is the production path for Insurgo's Phase 1 rollout.
 
 ## 1) Render service setup
 
-Use Render Blueprint with root [`render.yaml`](../../render.yaml)
+Use Render Blueprint with root [`render.yaml`](../../../render.yaml)
 for both website and Hermes worker, or use local [`render.yaml`](./render.yaml)
 for Hermes-only provisioning, or create the service manually:
 
