@@ -57,6 +57,18 @@ hermes whatsapp
 
 Then complete QR/device pairing from WhatsApp Business.
 
+If your Render service does not support one-off jobs/shell reliably, use startup
+env controls as a fallback:
+
+- Set `HERMES_ONE_OFF_COMMAND="hermes whatsapp"` and redeploy once.
+- Watch logs and scan QR.
+- Then clear `HERMES_ONE_OFF_COMMAND` and redeploy for normal gateway startup.
+
+Alternative debug mode:
+
+- Set `HERMES_PAUSE_START=true` to keep container running without launching the gateway.
+- Open shell, run manual commands, then unset and redeploy.
+
 Important safety behavior:
 
 - Pair Hermes as a linked device session.

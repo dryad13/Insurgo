@@ -34,6 +34,8 @@ deploys both:
 - Pairing: `hermes whatsapp` (one-time and re-pair fallback)
 - Start gateway: `hermes gateway start`
 - Model selection: `hermes model`
+- Fallback one-off: set `HERMES_ONE_OFF_COMMAND="hermes whatsapp"` and redeploy once
+- Pause mode: set `HERMES_PAUSE_START=true` for temporary shell-first troubleshooting
 
 ## Incident playbook (minimum)
 
