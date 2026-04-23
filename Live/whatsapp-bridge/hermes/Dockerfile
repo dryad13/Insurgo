@@ -11,7 +11,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN python -m pip install --no-cache-dir --upgrade pip && \
     python -m pip install --no-cache-dir \
-    "hermes-agent[messaging,cron,cli,pty] @ https://github.com/NousResearch/hermes-agent/archive/refs/heads/main.zip"
+    "hermes-agent @ https://github.com/NousResearch/hermes-agent/archive/refs/heads/main.zip" \
+    "aiohttp>=3.9,<4" \
+    "qrcode>=7,<8"
 
 # Hermes WhatsApp runtime expects bridge assets under site-packages/scripts/whatsapp-bridge.
 # The slim GitHub source install does not always place these runtime JS files there, so we
