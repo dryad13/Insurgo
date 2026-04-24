@@ -16,9 +16,8 @@ RUN python -m pip install --no-cache-dir --upgrade pip && \
     "qrcode>=7,<8"
 
 # Hermes WhatsApp runtime expects bridge assets under site-packages/scripts/whatsapp-bridge.
-# The slim GitHub source install does not always place these runtime JS files there, so we
-# vendor them explicitly and install their Node dependencies at image build time.
-RUN BRIDGE_DIR="$(python - <<'PY'\nimport sysconfig\nprint(sysconfig.get_paths()['purelib'] + '/scripts/whatsapp-bridge')\nPY\n)" && \
+# Vendor them explicitly and install Node dependencies at build time.
+RUN BRIDGE_DIR="/usr/local/lib/python3.11/site-packages/scripts/whatsapp-bridge" && \
     mkdir -p "${BRIDGE_DIR}" && \
     curl -fsSL "https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/whatsapp-bridge/bridge.js" -o "${BRIDGE_DIR}/bridge.js" && \
     curl -fsSL "https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/whatsapp-bridge/allowlist.js" -o "${BRIDGE_DIR}/allowlist.js" && \
