@@ -1,10 +1,12 @@
 # Public vs Admin Tool Policy
 
-This policy defines enforceable capability boundaries for the Insurgo WhatsApp bot.
+This policy defines the **target** capability boundaries for the Insurgo WhatsApp bot. Hermes does not read `HERMES_ADMIN_E164` by itself: that variable is for our runbooks, future automation, and a planned enforcement layer. Until that layer exists, the LLM may **describe** a verification flow that is not actually implemented — do not treat chat text as a cryptographically strong identity check.
+
+**Actual enforcement today** is: Hermes’s per-platform **toolset** (what tools exist) plus (optionally) `WHATSAPP_ALLOWED_USERS` / pairing — not a second hidden “E.164 compare” inside the model.
 
 ## Identity tiers
 
-- `admin`: sender phone exactly matches `HERMES_ADMIN_E164` (`+92333728901`)
+- `admin`: sender phone exactly matches `HERMES_ADMIN_E164` (`+923333728901`)
 - `public`: all other inbound WhatsApp senders
 
 ## Public tier (allowed)

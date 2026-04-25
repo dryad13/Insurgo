@@ -15,7 +15,7 @@ This runbook is the production path for Insurgo's Phase 1 rollout.
 - Render account and project
 - OpenRouter API key
 - WhatsApp number to pair (Insurgo: `+1 686 204-6914`)
-- Admin phone (Pakistan master): `+92333728901`
+- Admin phone (Pakistan master): `+923333728901`
 
 ## 1) Render service setup
 
@@ -35,7 +35,7 @@ Start from [`./.env.render.example`](./.env.render.example) and set real values 
 - `OPENROUTER_API_KEY`
 - `WHATSAPP_ENABLED=true`
 - `GATEWAY_ALLOW_ALL_USERS=true` (open public ingress)
-- `HERMES_ADMIN_E164=+92333728901` (admin override)
+- `HERMES_ADMIN_E164=+923333728901` (admin override)
 - `WHATSAPP_ALLOWED_USERS` optional (admins/operators only when needed)
 - `HERMES_HOME`
 - `XDG_CONFIG_HOME`
@@ -43,7 +43,7 @@ Start from [`./.env.render.example`](./.env.render.example) and set real values 
 Role behavior:
 
 - Unknown/public numbers: restricted discovery toolset only.
-- `+92333728901`: full admin toolset.
+- `+923333728901`: full admin toolset.
 - Any extra numbers in allowlist: operator access as explicitly configured.
 - Policy source of truth: [`public-admin-tool-policy.md`](./public-admin-tool-policy.md)
 

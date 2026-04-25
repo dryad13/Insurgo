@@ -17,13 +17,13 @@ deploys both:
 ## Secrets and env ownership
 
 - `OPENROUTER_API_KEY`: owner-managed secret in Render
-- `HERMES_ADMIN_E164=+92333728901`: owner admin override identity
+- `HERMES_ADMIN_E164=+923333728901`: owner admin override identity
 - `WHATSAPP_ALLOWED_USERS`: optional operator allowlist in Render
 - `GATEWAY_ALLOW_ALL_USERS=true`: public ingress is enabled; safety is enforced by restricted public toolset
 
 ## Role routing
 
-- Admin mode: sender `+92333728901` receives full operational toolset.
+- Admin mode: sender `+923333728901` receives full operational toolset.
 - Public mode: all other senders are restricted to discovery-safe tools only.
 - Unknown/public senders must never receive shell/filesystem/arbitrary exec tools.
 - Public/admin tool boundaries are defined in
@@ -32,7 +32,7 @@ deploys both:
 ## Runtime commands
 
 - Pairing: `hermes whatsapp` (one-time and re-pair fallback)
-- Start gateway: `hermes gateway start`
+- Start gateway: `hermes gateway` (foreground; use in containers — `hermes gateway start` requires systemd/launchd)
 - Model selection: `hermes model`
 - Fallback one-off: set `HERMES_ONE_OFF_COMMAND="hermes whatsapp"` and redeploy once
 - Pause mode: set `HERMES_PAUSE_START=true` for temporary shell-first troubleshooting

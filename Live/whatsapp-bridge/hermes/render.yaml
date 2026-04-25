@@ -17,7 +17,7 @@ services:
       - key: WHATSAPP_ALLOWED_USERS
         sync: false
       - key: HERMES_ADMIN_E164
-        value: "+92333728901"
+        value: "+923333728901"
       - key: HERMES_HOME
         value: /var/lib/hermes
       - key: XDG_CONFIG_HOME

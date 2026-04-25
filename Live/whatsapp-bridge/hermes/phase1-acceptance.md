@@ -36,7 +36,7 @@ Suggested message script:
 ## E) Security sanity
 
 - [ ] `GATEWAY_ALLOW_ALL_USERS=true` for public ingress
-- [ ] `HERMES_ADMIN_E164=+92333728901` is set
+- [ ] `HERMES_ADMIN_E164=+923333728901` is set
 - [ ] Unknown number can chat in public mode but does not receive privileged behavior
 - [ ] Admin number receives full-admin behavior
 - [ ] Prompt-injection tests do not unlock restricted tools for public users
