@@ -4,6 +4,8 @@ This policy defines the **target** capability boundaries for the Insurgo WhatsAp
 
 **Actual enforcement today** is: Hermes’s per-platform **toolset** (what tools exist) plus (optionally) `WHATSAPP_ALLOWED_USERS` / pairing — not a second hidden “E.164 compare” inside the model.
 
+**Naming:** Public-tier tool names in this file (`capture_prospect`, `log_discovery`, etc.) and any names in the long-form **Insurgo system prompt** (see [`insurgo-system-prompt-v1.1.md`](./insurgo-system-prompt-v1.1.md)) are **product targets** for future skills/MCP. They are not guaranteed to exist in Hermes until implemented. The enforceable source of truth for what a sender can *invoke* is still `hermes tools` and gateway environment — keep those aligned when you add real tools.
+
 ## Identity tiers
 
 - `admin`: sender phone exactly matches `HERMES_ADMIN_E164` (`+923333728901`)

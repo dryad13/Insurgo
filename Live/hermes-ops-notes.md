@@ -4,7 +4,7 @@ This note tracks the minimum operations model for the Hermes WhatsApp runtime.
 The repository-level Render blueprint is [`render.yaml`](../render.yaml), which
 deploys both:
 
-- Static site from [`app new`](./app new)
+- Static site from [`app new`](./app new) (under `Live/`)
 - Hermes WhatsApp worker from [`whatsapp-bridge/hermes`](./whatsapp-bridge/hermes)
 
 ## Service identity
@@ -19,15 +19,15 @@ deploys both:
 - `OPENROUTER_API_KEY`: owner-managed secret in Render
 - `HERMES_ADMIN_E164=+923333728901`: owner admin override identity
 - `WHATSAPP_ALLOWED_USERS`: optional operator allowlist in Render
-- `GATEWAY_ALLOW_ALL_USERS=true`: public ingress is enabled; safety is enforced by restricted public toolset
+- `GATEWAY_ALLOW_ALL_USERS=true`: public ingress is enabled. **Target** safety is a restricted public toolset (see policy below); **actual** lockdown is whatever Hermes tool configuration + allowlist/pairing you have enabled — not automatic from this env var alone
 
 ## Role routing
 
 - Admin mode: sender `+923333728901` receives full operational toolset.
-- Public mode: all other senders are restricted to discovery-safe tools only.
-- Unknown/public senders must never receive shell/filesystem/arbitrary exec tools.
-- Public/admin tool boundaries are defined in
-  [`whatsapp-bridge/hermes/public-admin-tool-policy.md`](./whatsapp-bridge/hermes/public-admin-tool-policy.md).
+- Public mode: all other senders should be limited to discovery-safe behavior (enforce via `hermes tools` when possible).
+- Unknown/public senders must never receive shell/filesystem/arbitrary exec tools in production.
+- Public/admin **target** boundaries: [`whatsapp-bridge/hermes/public-admin-tool-policy.md`](./whatsapp-bridge/hermes/public-admin-tool-policy.md).
+- WhatsApp **agent persona / system prompt** (v1.1): [`whatsapp-bridge/hermes/insurgo-system-prompt-v1.1.md`](./whatsapp-bridge/hermes/insurgo-system-prompt-v1.1.md) — copy the SYSTEM block onto the worker into Hermes’s configured persona location (e.g. `SOUL` / config under `XDG_CONFIG_HOME`); then restart gateway or start a new session.
 
 ## Runtime commands
 

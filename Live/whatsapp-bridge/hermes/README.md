@@ -76,13 +76,17 @@ Important safety behavior:
 
 ## 4) Start messaging gateway
 
-Use:
+In **this** Docker/Render image, the container entrypoint runs `hermes gateway` in the **foreground** (see [`start.sh`](./start.sh)). That is the correct form for PID 1.
+
+In a shell on the worker, you can do the same:
 
 ```bash
-hermes gateway start
+hermes gateway
 ```
 
-Once running, send a test message from the allowed number and confirm response.
+`hermes gateway start` is for hosts where you have run `hermes gateway install` and have **systemd** (Linux) or **launchd** (macOS) managing a long-lived service. The slim image does not use that path.
+
+Once running, send a test message and confirm a reply.
 
 ## 5) OpenRouter model selection
 
@@ -92,7 +96,9 @@ Run:
 hermes model
 ```
 
-Choose provider/model via OpenRouter and pin a known-stable model for Phase 1.
+Choose provider/model via OpenRouter. For production, **pin a known-stable model** (including non-free if needed) — free tiers can 503 or drop streams under load, which is painful on WhatsApp.
+
+Full Insurgo WhatsApp **system prompt** (v1.1) lives in [`insurgo-system-prompt-v1.1.md`](./insurgo-system-prompt-v1.1.md); install it on the worker per [`../../hermes-ops-notes.md`](../../hermes-ops-notes.md).
 
 ## 6) Ops controls (minimum)
 
