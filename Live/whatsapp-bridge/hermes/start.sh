@@ -25,4 +25,4 @@ if [ "${HERMES_PAUSE_START}" = "true" ]; then
 fi
 
 echo "Starting Hermes gateway..."
-exec hermes gateway start
+exec hermes gateway
