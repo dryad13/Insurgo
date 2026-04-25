@@ -1,5 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+
+function getPrefersReducedMotion() {
+  if (typeof window === 'undefined') return false;
+  return Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
+}
 
 const draw = (delay = 0, duration = 1.5) => ({
   hidden: { pathLength: 0, opacity: 0 },
@@ -14,22 +20,46 @@ const draw = (delay = 0, duration = 1.5) => ({
 });
 
 /**
- * Richer preloader inspired by the previous version:
- * animated emblem + glow field + initialization caption.
+ * Full-viewport preloader. Rendered via portal to `document.body` so it always
+ * sits above the app (z-index) and is not clipped by #root. Auto-hide only
+ * after a minimum visible time — including when prefers-reduced-motion is on
+ * (we used to use 0ms there, which looked like a single flash and “nothing
+ * displayed”).
  */
 export default function Preloader() {
   const [visible, setVisible] = useState(true);
+  // Read once so path animations match timing on first paint (no one-frame wrong mode).
+  const [reducedMotion] = useState(getPrefersReducedMotion);
+  const timeoutRef = useRef(null);
 
   useEffect(() => {
-    const reduce =
-      typeof window !== 'undefined' &&
-      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    const t = setTimeout(() => setVisible(false), reduce ? 0 : 3200);
-    return () => clearTimeout(t);
-  }, []);
+    if (typeof window === 'undefined') return;
 
-  return (
-    <AnimatePresence>
+    const hideAfterMs = reducedMotion ? 1800 : 4000;
+    let cancelled = false;
+
+    // Two rAFs: wait for paint so the layer is actually visible before the timer.
+    const raf1 = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (cancelled) return;
+        timeoutRef.current = window.setTimeout(() => {
+          if (!cancelled) setVisible(false);
+        }, hideAfterMs);
+      });
+    });
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf1);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
+  }, [reducedMotion]);
+
+  const layer = (
+    <AnimatePresence mode="wait">
       {visible && (
         <motion.div
           key="preloader"
@@ -37,17 +67,19 @@ export default function Preloader() {
           initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, ease: 'easeInOut' }}
+          transition={{ duration: 0.55, ease: 'easeInOut' }}
           style={{
             position: 'fixed',
             inset: 0,
-            zIndex: 50,
+            zIndex: 2147483646,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'var(--bg-canvas)',
-            pointerEvents: 'none',
+            // Fallback in case --bg-canvas is late; matches styles.css
+            background: 'var(--bg-canvas, #0a0a0f)',
+            pointerEvents: 'auto',
+            isolation: 'isolate',
           }}
         >
           <motion.div
@@ -62,14 +94,18 @@ export default function Preloader() {
             }}
             initial={{ scale: 0.5, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 2, ease: 'easeOut' }}
+            transition={{ duration: reducedMotion ? 0.25 : 2, ease: 'easeOut' }}
           />
 
           <motion.div
             style={{ position: 'relative', zIndex: 1, transformOrigin: 'center center' }}
             initial={{ rotate: 0 }}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 30, ease: 'linear', repeat: Infinity }}
+            animate={reducedMotion ? { rotate: 0 } : { rotate: 360 }}
+            transition={
+              reducedMotion
+                ? { duration: 0 }
+                : { duration: 30, ease: 'linear', repeat: Infinity }
+            }
           >
             <motion.svg
               width="140"
@@ -108,7 +144,7 @@ export default function Preloader() {
                 stroke="url(#preGrad)"
                 strokeWidth="2"
                 filter="url(#preGlow)"
-                variants={draw(0, 2)}
+                variants={draw(0, reducedMotion ? 0.6 : 2)}
               />
 
               <motion.path
@@ -116,7 +152,7 @@ export default function Preloader() {
                 stroke="url(#preGradWhite)"
                 strokeWidth="1"
                 filter="url(#preGlow)"
-                variants={draw(0.5, 1.2)}
+                variants={draw(0.5, reducedMotion ? 0.4 : 1.2)}
               />
 
               <motion.path
@@ -124,7 +160,7 @@ export default function Preloader() {
                 stroke="url(#preGradWhite2)"
                 strokeWidth="1"
                 filter="url(#preGlow)"
-                variants={draw(0.3, 1.5)}
+                variants={draw(0.3, reducedMotion ? 0.4 : 1.5)}
               />
 
               {[
@@ -141,7 +177,7 @@ export default function Preloader() {
                   stroke="#FB0C0C"
                   strokeWidth="1"
                   filter="url(#preGlow)"
-                  variants={draw(0.8 + i * 0.1, 0.6)}
+                  variants={draw(0.8 + i * 0.1, reducedMotion ? 0.25 : 0.6)}
                 />
               ))}
             </motion.svg>
@@ -158,7 +194,7 @@ export default function Preloader() {
             }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 1 }}
+            transition={{ delay: reducedMotion ? 0.1 : 0.8, duration: reducedMotion ? 0.2 : 1 }}
           >
             Initializing Systems
           </motion.p>
@@ -166,4 +202,7 @@ export default function Preloader() {
       )}
     </AnimatePresence>
   );
+
+  if (typeof document === 'undefined') return null;
+  return createPortal(layer, document.body);
 }
